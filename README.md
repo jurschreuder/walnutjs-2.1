@@ -1,15 +1,36 @@
 walnutjs-2.1
 ===
 
-A Neural Network Library in JavaScript.
+**Jaap Murre and Jurriaan Schreuder, University of Amsterdam, 2019-2024**
 
-## walnutjs-2.1
+A framework for neurocognitive neural network modelling in JavaScript with a 37-year history.
 
-The neural network library, npm package.
+## Approach
 
-## walnutjs-2.1-studio
+Contrary to most other neurosimulators, including the predecessors to this version, Walnut 2.0 aims to have a stricter
+division of labor between:
 
-Visual builder and analytics tool for walnutjs-2.1 networks.
+ - neural network *architecture*
+ - neural algorithms (colled in so called neural *paradigms*)
+ - *display* for visualization and interaction
+
+## History: Walnut neurosimulator, Walnut Nutshell, Walnut.py, and WalnutJS 1.0
+
+Predecessors to Walnut were developed in C by Jaap Murre at Leiden University from 1988 to 1992,
+including the Metanet neurosimulator with Steven Kleynenberg.
+
+The Walnut neurosimulator with the Walnut Nutshell interactive graphical user-interface was developed
+in C++ in the late 90s by Jaap Murre at the NeuroMod group (still
+[downloadable](http://www.neuromod.org/static/walnut/index.html) and runnable on Windows. It is a fast neural network simulator with
+a graphical shell called 'Nutshell'. It is extendable with new neural network
+paradigms, though in practice this requires advanced knowledge of C++ and compilation techniques (and by now, access to
+some pretty retro compilation software).
+
+In 2000, an unreleased Python version, walnut.py, was developed for research purposes in the NeuroMod group
+(see [neuromod.org](http://neuromod.org)) and in 2004, Jaap Murre wrote a JavaScript version, mainly for
+for teaching purposes, which was used until recently: walnutJS 1.0  (see [demos and lessons](http://murre.com/connectionism/) developed
+for a course on Connectionist Models), which was not officially released either.
+
 
 # Getting started
 
@@ -72,3 +93,10 @@ console.log(network.nodes.neurons.net);
 
 
 ```
+
+
+# walnutjs-2.1-studio
+
+Visual builder and analytics tool for walnutjs-2.1 networks.
+
+*more soon*
