@@ -37,12 +37,12 @@ for a course on Connectionist Models), which was not officially released either.
 
 ### Installation
 
+This project uses yarn workspaces so walnutjs-2.1 (npm package) and walnutjs-2.1-studio (vue3 frontend) can be easily installed in one go locally.
+
+In the root folder of this git repository do:
+
 ```sh
 yarn install
-
-cd walnutjs-2.1-studio
-yarn dev
-
 ```
 
 ### Running the tests
