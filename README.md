@@ -7,7 +7,7 @@ A framework for neurocognitive neural network modelling in JavaScript with a 37-
 
 ## Approach
 
-Contrary to most other neurosimulators, including the predecessors to this version, Walnut 2.0 aims to have a stricter
+Contrary to most other neurosimulators, including the predecessors to this version, Walnut 2.1 aims to have a stricter
 division of labor between:
 
  - neural network *architecture*
@@ -94,6 +94,40 @@ console.log(network.nodes.neurons.net);
 
 ```
 
+# Basic example of a custom Paradigm
+
+```js
+
+import { Paradigm } from "walnutjs-2.1/network/paradigms/paradigm";
+
+class BasicActivate extends Paradigm {
+ 
+  // activation rule ReLU
+  nodeActivateFunction = (network, neuronIndex) => {
+    const i = neuronIndex;
+    const neurons = network.nodes.neurons;
+
+    neurons.act[i] = neurons.net[i] > 0 ? neurons.net[i] : 0;
+  };
+  
+  // basic activation function tracts,
+  // net += act * weight 
+  tractActivateFunction = (network, connectionIndex) => {
+    const i = connectionIndex;
+    const neurons = network.nodes.neurons;
+    const conns = network.tracts.connections;
+
+    neurons.net[conns.to[i]] +=  neurons.act[conns.from[i]] * conns.weight[i];
+  };
+
+  constructor() {
+    super("basic activate");
+  }
+}
+
+export { BasicActivate }
+
+```
 
 # walnutjs-2.1-studio
 
