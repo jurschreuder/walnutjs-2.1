@@ -1,0 +1,31 @@
+{
+  "name": "walnutjs-2.1",
+  "version": "2.1.0",
+  "description": "A framework for neurocognitive neural network modelling in JavaScript with a 35-year history.",
+  "main": "src/index.js",
+  "repository": "git@github.com:jaapmurre/WalnutJS-2.0-engine.git",
+  "author": "Jaap Murre <jaap@murre.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "core-js": "^3.37.0",
+    "cross-env": "5.0.5"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.24.1",
+    "@babel/core": "^7.24.4",
+    "@babel/preset-env": "^7.24.4",
+    "jest": "^29.7.0",
+    "jsdoc": "^4.0.2",
+    "jsdoc-mermaid": "^1.0.0"
+  },
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ],
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "test": "jest ./src",
+    "docs": "jsdoc -r src -d docs"
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "private": true,
+  "workspaces": ["walnutjs-2.1", "walnutjs-2.1-studio"]
+}
