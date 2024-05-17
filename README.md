@@ -71,11 +71,11 @@ The docs will be found in `walnutjs-2.1/docs`.
 
 ```js
 
-import { Network } from "walnutjs-2.1/network/network.js";
-import { Node } from "walnutjs-2.1/network/nodes/node.js";
-import { Tract } from "walnutjs-2.1/network/tracts/tract.js";
+import { Network } from "walnutjs-2.1/network/network";
+import { Node } from "walnutjs-2.1/network/nodes/node";
+import { Tract } from "walnutjs-2.1/network/tracts/tract";
 
-import { BasicActivate } from "walnutjs-2.1/network/paradigms/examples/basicActivate.js";
+import { BasicActivate } from "walnutjs-2.1/network/paradigms/examples/basicActivate";
 
 
 // load a basic paradigm
