@@ -34,16 +34,38 @@ for a course on Connectionist Models), which was not officially released either.
 
 # Getting started
 
-```sh
-clone the repository
 
-cd walnutjs-2.1
+### Installation
+
+```sh
 yarn install
 
 cd walnutjs-2.1-studio
 yarn dev
 
 ```
+
+### Running the tests
+
+To run the test of the walnutsj-2.1 npm package (subfolder)
+
+```
+cd walnut-js
+yarn test
+```
+
+### Generate the docs
+
+To generate the docs of the walnutsj-2.1 npm package (subfolder)
+
+```
+cd walnut-js
+yarn docs
+```
+
+The docs will be found in `walnutjs-2.1/docs`.
+
+
 
 # Creating a basic network
 
@@ -133,4 +155,11 @@ export { BasicActivate }
 
 Visual builder and analytics tool for walnutjs-2.1 networks.
 
-*more soon*
+### Running locally
+
+```sh
+cd walnutjs-2.1-studio
+yarn dev
+```
+
+*more soon...*
