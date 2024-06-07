@@ -9,12 +9,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "walnutjs-2.1": "2.1.0",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.3",
+    "cross-env": "5.0.5",
     "vue": "^3.4.21",
-    "cross-env": "5.0.5"
+    "vue-router": "4",
+    "walnutjs-2.1": "2.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
+    "sass": "^1.77.4",
     "vite": "^5.2.0"
   }
 }
