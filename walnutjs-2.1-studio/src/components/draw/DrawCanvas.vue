@@ -11,14 +11,16 @@
         height: layout.height+'px',
         'background-size': backgroundSize,
       }"
-      @mousemove.self="mouseFreeHover($event)"
+      @mousemove.self="mouseMove($event)"
       @mouseup.self="mouseUp()"
       @click.self="unselect()"
     >
 
     <Draggable
-      v-for="drag in drags"
+      v-for="(drag, index) in drags"
       :drag="drag"
+      :parentId="'drawingBackground'"
+      @click="select(index)"
     ></Draggable>
 
   </div>
@@ -48,8 +50,10 @@ const drags = ref([]);
 
 onMounted(() => {
 
-  const d = new Drag( 100, 100, 50, 50);
-  drags.value.push(d);
+  const d1 = new Drag( 100, 100, 50, 50);
+  drags.value.push(d1);
+  const d2 = new Drag( 300, 100, 100, 100);
+  drags.value.push(d2);
 
 });
 
@@ -61,16 +65,29 @@ const backgroundSize = computed(() => {
   return s;
 });
 
-function mouseFreeHover(e){
-  // todo
+
+const mouseUp = () => {
+  for(let i = 0; i < drags.value.length; i++){
+    drags.value[i].isDragging = false;
+  }
 }
 
-function mouseUp(){
-  // todo
+const mouseMove = (evt) => {
+  for(let i = 0; i < drags.value.length; i++){
+    drags.value[i].move(evt.offsetX, evt.offsetY);
+  }
 }
 
-function unselect(){
-  // todo
+const select = (index) => {
+  unselect();
+  drags.value[index].selected = true;
+}
+
+const unselect = () => {
+  console.log("unselect");
+  for(let i = 0; i < drags.value.length; i++){
+    drags.value[i].selected = false;
+  }
 }
 
 
