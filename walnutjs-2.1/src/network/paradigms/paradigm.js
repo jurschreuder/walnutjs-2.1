@@ -72,4 +72,4 @@ class Paradigm {
   }
 }
 
-export { Paradigm }
+export { Paradigm, NodeVariable }

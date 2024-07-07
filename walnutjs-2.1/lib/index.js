@@ -3,6 +3,12 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+Object.defineProperty(exports, "BasicActivate", {
+  enumerable: true,
+  get: function get() {
+    return _basicActivate.BasicActivate;
+  }
+});
 Object.defineProperty(exports, "Network", {
   enumerable: true,
   get: function get() {
@@ -33,8 +39,9 @@ Object.defineProperty(exports, "Tracts", {
     return _tracts.Tracts;
   }
 });
-var _network = require("./network");
-var _nodes = require("./network/nodes/nodes");
-var _node = require("./network/nodes/node");
-var _tracts = require("./network/tracts/tracts");
-var _tract = require("./network/tracts/tract");
+var _network = require("./network/network.js");
+var _nodes = require("./network/nodes/nodes.js");
+var _node = require("./network/nodes/node.js");
+var _tracts = require("./network/tracts/tracts.js");
+var _tract = require("./network/tracts/tract.js");
+var _basicActivate = require("./network/paradigms/examples/basicActivate.js");

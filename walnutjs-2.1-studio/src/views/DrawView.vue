@@ -25,4 +25,11 @@ import JsonEditor from "./../components/editor/JsonEditor.vue";
 
 import DrawCanvas from "./../components/draw/DrawCanvas.vue";
 
+
+import { Network, Node, Tract, BasicActivate } from "walnutjs-2.1"
+
+const paradigm = new BasicActivate();
+const network = new Network("WalnutJS-2.1 Network", paradigm);
+console.log("network:", network);
+
 </script>

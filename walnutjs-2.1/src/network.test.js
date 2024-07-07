@@ -1,10 +1,5 @@
 
-import { Network } from "./network/network.js";
-import { Node } from "./network/nodes/node.js";
-import { Tract } from "./network/tracts/tract.js";
-
-import { BasicActivate } from "./network/paradigms/examples/basicActivate.js";
-
+import { Network, Node, Tract, BasicActivate } from "walnutjs-2.1"
 
 test('basic network', () => {
   // load a basic paradigm
