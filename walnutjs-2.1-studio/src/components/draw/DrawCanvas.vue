@@ -17,7 +17,7 @@
     >
 
     <Draggable
-      v-for="(drag, index) in drags"
+      v-for="(drag, index) in props.display.nodeDraggables"
       :drag="drag"
       :parentId="'drawingBackground'"
       @click="select(index)"
@@ -31,14 +31,15 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch, reactive } from 'vue'
 
-import { Drag } from './drag.js'
 import Draggable from './Draggable.vue'
 
-defineProps({
-  msg: String,
-})
+const props = defineProps([
+  "display", // WalnutJS network.display
+]);
+
+//const display = reactive(props.display);
 
 const layout = ref({
   width: 2000,
@@ -46,15 +47,56 @@ const layout = ref({
   scale: 1,
 });
 
-const drags = ref([]);
+//const neuronSizePx = 4;
+
+//const nodeDraggablse = ref([]);
+//let dragPaths = {}; // key: path, value: drag
+
+//let drawX = 100; // where to start drawing
+//let drawY = 100;
+
+//const dragsFromNetworkDict = (networkDict) => {
+//  const updatedDrags = [];
+//  const updatedDragPaths = {};
+//
+//  const gutterPx = 20;
+//
+//  for(let i = 0; i < networkDict.nodes.nodes.length; i++){
+//    const node = networkDict.nodes.nodes[i];
+//    if(node.path in dragPaths){ // only update
+//      dragPaths[node.path].width = node.width*neuronSizePx;
+//      dragPaths[node.path].height = node.height*neuronSizePx;
+//      // rebuild draw lists
+//      updatedDrags.push(dragPaths[node.path]);
+//      updatedDragPaths[node.path] = dragPaths[node.path];
+//    }else{ // add new
+//      const w = node.width*neuronSizePx;
+//      const h = node.height*neuronSizePx;
+//      const lbl = node.path.split("/").at(-1);
+//      const drag = new Drag(drawX, drawY, w, h, lbl);
+//      console.log("added drag:", drag);
+//      console.log("node.name:", node.name);
+//      // rebuild draw lists
+//      updatedDrags.push(drag);
+//      updatedDragPaths[node.path] = drag;
+//
+//      // dont draw on top of each other
+//      drawX += gutterPx;
+//      drawY += gutterPx;
+//    }
+//  }
+//  drags.value = updatedDrags;
+//  dragPaths = updatedDragPaths;
+//}
+
 
 onMounted(() => {
+  //dragsFromNetworkDict(props.networkDict);
+  console.log("DrawCanvas display:", props.display);
+});
 
-  const d1 = new Drag( 100, 100, 50, 50);
-  drags.value.push(d1);
-  const d2 = new Drag( 300, 100, 100, 100);
-  drags.value.push(d2);
-
+watch(() => props.display, (newDisplay, oldDisplay) => {
+  console.log("DrawCanvas got a new display:", newDisplay)
 });
 
 
@@ -67,26 +109,29 @@ const backgroundSize = computed(() => {
 
 
 const mouseUp = () => {
-  for(let i = 0; i < drags.value.length; i++){
-    drags.value[i].isDragging = false;
+  const drags = props.display.nodeDraggables;
+  for(let i = 0; i < drags.length; i++){
+    drags[i].isDragging = false;
   }
 }
 
 const mouseMove = (evt) => {
-  for(let i = 0; i < drags.value.length; i++){
-    drags.value[i].move(evt.offsetX, evt.offsetY);
+  const drags = props.display.nodeDraggables;
+  for(let i = 0; i < drags.length; i++){
+    drags[i].move(evt);
   }
 }
 
 const select = (index) => {
   unselect();
-  drags.value[index].selected = true;
+  const drags = props.display.nodeDraggables;
+  drags[index].selected = true;
 }
 
 const unselect = () => {
-  console.log("unselect");
-  for(let i = 0; i < drags.value.length; i++){
-    drags.value[i].selected = false;
+  const drags = props.display.nodeDraggables;
+  for(let i = 0; i < drags.length; i++){
+    drags[i].selected = false;
   }
 }
 

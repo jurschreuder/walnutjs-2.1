@@ -6,6 +6,12 @@
 </template>
 
 <script setup>
+import { provide } from "vue";
+
+let walnut = {
+  network: {},
+}
+provide("walnut", walnut);
 
 </script>
 

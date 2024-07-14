@@ -34,12 +34,13 @@ onUnmounted(() => {
 
 <template>
   <button @click="updateDocument">update document</button>
-  <div ref="editorElement"/>
+  <div id="editor" ref="editorElement"/>
 </template>
 
 <style scoped>
 #editor {
   height: 100%;
   margin: auto;
+  overflow-y: scroll;
 }
 </style>

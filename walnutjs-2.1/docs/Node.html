@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Node<span class="signature">(network, path, width, height)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>Node<span class="signature">(network, path, width, height, draggable)</span><span class="type-signature"></span></h2>
         
             <div class="class-description">A Node contains neurons.
   A Node has an Activate function.</div>
@@ -46,7 +46,7 @@
     
 
     
-    <h4 class="name" id="Node"><span class="type-signature"></span>new Node<span class="signature">(network, path, width, height)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Node"><span class="type-signature"></span>new Node<span class="signature">(network, path, width, height, draggable)</span><span class="type-signature"></span></h4>
     
 
     
@@ -179,6 +179,29 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>draggable</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="NodeDraggable.html">NodeDraggable</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Draw element for the visual builder</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -216,7 +239,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nodes_node.js.html">nodes/node.js</a>, <a href="nodes_node.js.html#line11">line 11</a>
+        <a href="network_nodes_node.js.html">network/nodes/node.js</a>, <a href="network_nodes_node.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -324,7 +347,235 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nodes_node.js.html">nodes/node.js</a>, <a href="nodes_node.js.html#line109">line 109</a>
+        <a href="network_nodes_node.js.html">network/nodes/node.js</a>, <a href="network_nodes_node.js.html#line126">line 126</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="addDraggable"><span class="type-signature"></span>addDraggable<span class="signature">(x, x, color<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Adds a visual element to the node to be used in the visual builder.
+    Check NodeDraggable for more configuration options to change after the initial construction.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The x location of the element in the visual builder.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The x location of the element in the visual builder.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    '#ddd'
+                
+                </td>
+            
+
+            <td class="description last">The color of the element in the visual builder.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="network_nodes_node.js.html">network/nodes/node.js</a>, <a href="network_nodes_node.js.html#line80">line 80</a>
     </li></ul></dd>
     
 
@@ -461,7 +712,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nodes_node.js.html">nodes/node.js</a>, <a href="nodes_node.js.html#line79">line 79</a>
+        <a href="network_nodes_node.js.html">network/nodes/node.js</a>, <a href="network_nodes_node.js.html#line96">line 96</a>
     </li></ul></dd>
     
 
@@ -598,7 +849,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nodes_node.js.html">nodes/node.js</a>, <a href="nodes_node.js.html#line71">line 71</a>
+        <a href="network_nodes_node.js.html">network/nodes/node.js</a>, <a href="network_nodes_node.js.html#line88">line 88</a>
     </li></ul></dd>
     
 
@@ -686,7 +937,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nodes_node.js.html">nodes/node.js</a>, <a href="nodes_node.js.html#line130">line 130</a>
+        <a href="network_nodes_node.js.html">network/nodes/node.js</a>, <a href="network_nodes_node.js.html#line147">line 147</a>
     </li></ul></dd>
     
 
@@ -869,7 +1120,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nodes_node.js.html">nodes/node.js</a>, <a href="nodes_node.js.html#line89">line 89</a>
+        <a href="network_nodes_node.js.html">network/nodes/node.js</a>, <a href="network_nodes_node.js.html#line106">line 106</a>
     </li></ul></dd>
     
 
@@ -1075,7 +1326,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nodes_node.js.html">nodes/node.js</a>, <a href="nodes_node.js.html#line100">line 100</a>
+        <a href="network_nodes_node.js.html">network/nodes/node.js</a>, <a href="network_nodes_node.js.html#line117">line 117</a>
     </li></ul></dd>
     
 
@@ -1121,13 +1372,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Network.html">Network</a></li><li><a href="Node.html">Node</a></li><li><a href="NodeVariable.html">NodeVariable</a></li><li><a href="Nodes.html">Nodes</a></li><li><a href="Paradigm.html">Paradigm</a></li><li><a href="Tract.html">Tract</a></li><li><a href="Tracts.html">Tracts</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Display.html">Display</a></li><li><a href="Network.html">Network</a></li><li><a href="Node.html">Node</a></li><li><a href="NodeDraggable.html">NodeDraggable</a></li><li><a href="NodeVariable.html">NodeVariable</a></li><li><a href="Nodes.html">Nodes</a></li><li><a href="Paradigm.html">Paradigm</a></li><li><a href="Tract.html">Tract</a></li><li><a href="Tracts.html">Tracts</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Fri May 17 2024 21:17:19 GMT+0200 (Central European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Sun Jul 14 2024 17:54:44 GMT+0800 (China Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

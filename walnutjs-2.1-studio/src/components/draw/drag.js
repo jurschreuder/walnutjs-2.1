@@ -2,12 +2,19 @@
 
 class Drag{
 
+  // config
+  snap = 10; // pixels
+  color = "#444";
+  showLabel = true;
+
+  // state
+  selected = false;
+  isDragging = false;
+
+  // hierarchy
   parent = false;
   children = [];
 
-  selected = false;
-  
-  isDragging = false;
 
   dragStart = {
     xStartLocal: 0,
@@ -16,11 +23,12 @@ class Drag{
     yStart: 0
   }
 
-  constructor(x, y, w, h){
+  constructor(x, y, w, h, label){
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
+    this.label = label || "test";
   }
 
   startDragging(xStartLocal, yStartLocal, xStart, yStart) {
@@ -31,7 +39,7 @@ class Drag{
       xStart: xStart,
       yStart: yStart 
     }
-    console.log("startDragging", this);
+    //console.log("startDragging", this);
   }
 
   move(x, y) {
@@ -39,7 +47,12 @@ class Drag{
 
     this.x = x - this.dragStart.xStartLocal;
     this.y = y - this.dragStart.yStartLocal;
-    console.log("move to", this.x, this.y);
+    
+    // snap
+    this.x -= (this.x%this.snap);
+    this.y -= (this.y%this.snap);
+
+    //console.log("move to", this.x, this.y);
   }
 }
 

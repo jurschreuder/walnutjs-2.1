@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Node = void 0;
+var _nodeDraggable = require("../../display/nodeDraggable");
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
@@ -14,6 +15,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
   @param {string} path - The unique path of this node within the network
   @param {number} width - The number of neurons width
   @param {number} height - The number of neurons height
+
+  @param {NodeDraggable} draggable - Draw element for the visual builder
+
   @category Network
  */
 class Node {
@@ -31,6 +35,7 @@ class Node {
     // tracts that go in and out of this node
     _defineProperty(this, "outTracts", []);
     _defineProperty(this, "inTracts", []);
+    _defineProperty(this, "draggable", false);
     this.network = network;
     this.path = path;
     this.width = width;
@@ -61,6 +66,17 @@ class Node {
       endNeuronIndex: this.endNeuronIndex
     };
     return dict;
+  }
+
+  /**
+    Adds a visual element to the node to be used in the visual builder.
+    Check NodeDraggable for more configuration options to change after the initial construction.
+    @param {number} x - The x location of the element in the visual builder.
+    @param {number} x - The x location of the element in the visual builder.
+    @param {string} [color='#444'] - The color of the element in the visual builder.
+  */
+  addDraggable(x, y, color) {
+    this.draggable = new _nodeDraggable.NodeDraggable(x, y, color);
   }
 
   /**

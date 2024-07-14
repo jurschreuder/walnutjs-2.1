@@ -2,8 +2,10 @@
 import { Nodes } from "./nodes/nodes";
 import { Tracts } from "./tracts/tracts";
 
+import { Display } from "../display/display";
+
 /**
-  Network is the WalnutJS-2.0 network, containing the Nodes and Tracts.
+  Network is the WalnutJS-2.1 network, containing the Nodes and Tracts.
   @category Network
  */
 class Network {
@@ -24,6 +26,18 @@ class Network {
 
     this.tracts = new Tracts(this);
 
+    this.display = new Display(this);
+
+  }
+
+  get dict() {
+    const dict = {
+      walnutJsVersion: 2.1,
+      dictVersion: 1.0,
+      nodes: this.nodes.dict,
+      //tracts: this.tracts.dict, // TODO
+    }
+    return dict;
   }
 
   activate(){
