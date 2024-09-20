@@ -36,6 +36,12 @@ import { ref, computed, onMounted } from 'vue'
 import { Drag } from './drag.js'
 import Draggable from './Draggable.vue'
 
+import { KexCanvas } from "./../../libs/kex-svg/kexCanvas.js";
+import { KexSvg } from "./../../libs/kex-svg/kexSvg.js";
+import { KexArrow } from "./../../libs/kex-svg/kexArrow.js";
+
+let canv = false;
+
 defineProps({
   msg: String,
 })
