@@ -35,7 +35,7 @@ class Display {
         tract.toNode && tract.toNode.draggable
       ){
         tract.arrow.fromDraggable = tract.fromNode.draggable;
-        tract.arrow.toDraggable = tract.fromNode.draggable;
+        tract.arrow.toDraggable = tract.toNode.draggable;
         tractArrows.push(tract.arrow);
       }
     }

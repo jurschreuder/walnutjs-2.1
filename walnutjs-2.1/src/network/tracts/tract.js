@@ -15,7 +15,7 @@ class Tract {
   delay = 0;
 
   // display arrow
-  arrow = { color: "#000", width: 2.0, fromDraggable: false, toDraggable: false };
+  arrow = { color: "#000", width: 2.0, fromDraggable: false, toDraggable: false, drawable: false };
 
   /**
     Create a Tract

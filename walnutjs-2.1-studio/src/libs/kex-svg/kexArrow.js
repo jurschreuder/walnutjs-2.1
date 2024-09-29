@@ -26,6 +26,7 @@ class KexArrow {
 
     // TODO temporary
     this.svg.setAttributeNS(null, "pointer-events", "none");
+    this.svg.setAttribute("id", this.uuid);
   }
 
   setFromPoint(x, y){
@@ -66,7 +67,7 @@ class KexArrow {
     let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("width", canvasWidth);
     svg.setAttribute("height", canvasHeight);
-    svg.setAttribute("id", this.id);
+    svg.setAttribute("id", this.uuid);
 
     svg.style.position = "absolute";
     svg.style.left = "0";
@@ -113,7 +114,7 @@ class KexArrow {
   }
 
   get elem(){
-    return document.getElementById(this.id);
+    return document.getElementById(this.uuid);
   }
 }
 

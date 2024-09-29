@@ -30,6 +30,7 @@ import { ref, reactive, computed, onMounted, defineProps } from 'vue'
 //import { Drag } from './drag.js'
 
 const props = defineProps(["drag", "parentId"]);
+const emit = defineEmits(['dragMove'])
 
 let parentEl = false;
 
@@ -61,6 +62,7 @@ const mouseMove = (evt) => {
 //  dragg.move(x, y);
 
   props.drag.move(evt, parentEl);
+  emit('dragMove');
 
 }
 

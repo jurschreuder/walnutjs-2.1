@@ -86,19 +86,19 @@ class NodeDraggable {
   }
   
   get center(){
-    return { x: (this.x+this.w)/2, y: (this.y+this.h)/2 } 
+    return { x: this.x+this.w/2, y: this.y+this.h/2 } 
   }
   get leftCenter(){
-    return { x: this.x, y: (this.y+this.h)/2 } 
+    return { x: this.x, y: this.y+this.h/2 } 
   }
   get rightCenter(){
-    return { x: this.x+this.w, y: (this.y+this.h)/2 } 
+    return { x: this.x+this.w, y: this.y+this.h/2 } 
   }
   get topCenter(){
-    return { x: (this.x+this.w)/2, y: this.y } 
+    return { x: this.x+this.w/2, y: this.y } 
   }
   get bottomCenter(){
-    return { x: (this.x+this.w)/2, y: this.y+this.h } 
+    return { x: this.x+this.w/2, y: this.y+this.h } 
   }
 
   /**

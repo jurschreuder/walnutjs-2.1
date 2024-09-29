@@ -21,6 +21,7 @@
       :drag="drag"
       :parentId="'drawingBackground'"
       @click="select(index)"
+      @dragMove="render"
     ></Draggable>
 
   </div>
@@ -103,7 +104,7 @@ onMounted(() => {
   canv = new KexCanvas("drawingBackground");
   
   // test some svg stuff
-  if(true){
+  if(false){
     const arrow = new KexArrow(canv.parentId);
     arrow.lineWidth = 4.0;
     arrow.setFromPoint(400, 400);
@@ -119,10 +120,9 @@ onMounted(() => {
 watch(() => props.display, (newDisplay, oldDisplay) => {
   console.log("DrawCanvas got a new display:", newDisplay)
 
+  renderArrows();
 
 });
-
-
 
 const backgroundSize = computed(() => {
   const big = 100 * layout.value.scale + "px";
@@ -131,30 +131,37 @@ const backgroundSize = computed(() => {
   return s;
 });
 
-const createArrows = () => {
+const render = () => {
+  renderArrows();
+}
+
+const renderArrows = () => {
   const arrows = props.display.tractArrows;
   console.log("creating arrows:", arrows);
   
   for(let i = 0; i < arrows.length; i++){
     const arrow = arrows[i];
-    const a = new KexArrow(canv.parentId);
-    a.lineWidth = 2.0;
-    a.setFromPoint(arrow.fromDraggable.center.x, arrow.fromDraggable.center.y);
-    a.setToPoint(arrow.toDraggable.center.x, arrow.toDraggable.center.y);
-    a.arrowRef = arrow;
-    canv.addDrawable(a);
+    if(!arrow.drawable){
+      const a = new KexArrow(canv.parentId);
+      a.lineWidth = 2.0;
+      a.setFromPoint(arrow.fromDraggable.center.x, arrow.fromDraggable.center.y);
+      a.setToPoint(arrow.toDraggable.center.x, arrow.toDraggable.center.y);
+      //a.arrowRef = arrow;
+      arrow.drawable = a;
+      canv.addDrawable(a);
+    }else{
+      const a = arrow.drawable;
+      const x1 = arrow.fromDraggable.center.x;
+      const y1 = arrow.fromDraggable.center.y;
+      const x2 = arrow.toDraggable.center.x;
+      const y2 = arrow.toDraggable.center.y;
+      //console.log(Date.now(), x1,y1,x2,y2)
+      a.setFromPoint(x1,y1);
+      a.setToPoint(x2,y2);
+    }
   }
 
   canv.render();
-}
-
-const renderArrows = () => {
-  const arrows = props.display.tractArrows;
-  console.log("rendering arrows:", arrows);
-
-  for(let i = 0; i < arrows.length; i++){
-    
-  }
 }
 
 const mouseUp = () => {
@@ -162,6 +169,7 @@ const mouseUp = () => {
   for(let i = 0; i < drags.length; i++){
     drags[i].isDragging = false;
   }
+  render();
 }
 
 const mouseMove = (evt) => {
@@ -169,12 +177,14 @@ const mouseMove = (evt) => {
   for(let i = 0; i < drags.length; i++){
     drags[i].move(evt);
   }
+  render();
 }
 
 const select = (index) => {
   unselect();
   const drags = props.display.nodeDraggables;
   drags[index].selected = true;
+  render();
 }
 
 const unselect = () => {
@@ -182,6 +192,7 @@ const unselect = () => {
   for(let i = 0; i < drags.length; i++){
     drags[i].selected = false;
   }
+  render();
 }
 
 
