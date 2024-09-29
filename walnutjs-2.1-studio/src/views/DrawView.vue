@@ -9,6 +9,7 @@
     <div class="col-8">
       <DrawCanvas 
         :display="display"
+        ref="drawCanvas"
       ></DrawCanvas>
     </div>
 
@@ -118,6 +119,7 @@ const network = new Network("WalnutJS-2.1 Network", paradigm);
 
 const networkDict = ref(network.dict);
 const display = ref(network.display);
+const drawCanvas = ref(null);
 
 const newNode = ref({ path: "my/node1", w: 10, h: 10, x: 100, y: 100, color: 'rgb(0,0,0)'});
 
@@ -165,7 +167,9 @@ const refresh = () => {
 
   display.value.createHierarchy();
   //console.log("display.value", display.value);
-
+  if(drawCanvas.value){
+    drawCanvas.value.render();
+  }
 }
 
 refresh();

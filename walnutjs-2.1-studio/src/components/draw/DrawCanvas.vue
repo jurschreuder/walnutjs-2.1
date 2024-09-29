@@ -151,10 +151,38 @@ const renderArrows = () => {
       canv.addDrawable(a);
     }else{
       const a = arrow.drawable;
-      const x1 = arrow.fromDraggable.center.x;
-      const y1 = arrow.fromDraggable.center.y;
-      const x2 = arrow.toDraggable.center.x;
-      const y2 = arrow.toDraggable.center.y;
+      let x1 = arrow.fromDraggable.center.x;
+      let y1 = arrow.fromDraggable.center.y;
+      let x2 = arrow.toDraggable.center.x;
+      let y2 = arrow.toDraggable.center.y;
+     
+      // left/right
+      if(Math.abs(x1-x2) > Math.abs(y1-y2)){
+        if(x1 < x2){ // left center
+          x1 = arrow.fromDraggable.rightCenter.x;
+          y1 = arrow.fromDraggable.rightCenter.y;
+          x2 = arrow.toDraggable.leftCenter.x;
+          y2 = arrow.toDraggable.leftCenter.y;
+        }else{ // right center
+          x1 = arrow.fromDraggable.leftCenter.x;
+          y1 = arrow.fromDraggable.leftCenter.y;
+          x2 = arrow.toDraggable.rightCenter.x;
+          y2 = arrow.toDraggable.rightCenter.y;
+        }
+      }else{ // top/bottom
+        if(y1 < y2){ // top center
+          x1 = arrow.fromDraggable.bottomCenter.x;
+          y1 = arrow.fromDraggable.bottomCenter.y;
+          x2 = arrow.toDraggable.topCenter.x;
+          y2 = arrow.toDraggable.topCenter.y;
+        }else{ // bottom center
+          x1 = arrow.fromDraggable.topCenter.x;
+          y1 = arrow.fromDraggable.topCenter.y;
+          x2 = arrow.toDraggable.bottomCenter.x;
+          y2 = arrow.toDraggable.bottomCenter.y;
+        }
+      }
+
       //console.log(Date.now(), x1,y1,x2,y2)
       a.setFromPoint(x1,y1);
       a.setToPoint(x2,y2);
@@ -195,7 +223,9 @@ const unselect = () => {
   render();
 }
 
-
+defineExpose({
+  render
+})
 
 </script>
 
