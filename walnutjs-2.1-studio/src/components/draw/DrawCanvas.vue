@@ -35,11 +35,17 @@ import { ref, computed, onMounted, watch, reactive } from 'vue'
 
 import Draggable from './Draggable.vue'
 
+
+//const display = reactive(props.display);
+import { KexCanvas } from "./../../libs/kex-svg/kexCanvas.js";
+import { KexSvg } from "./../../libs/kex-svg/kexSvg.js";
+import { KexArrow } from "./../../libs/kex-svg/kexArrow.js";
+
+let canv = false;
+
 const props = defineProps([
   "display", // WalnutJS network.display
 ]);
-
-//const display = reactive(props.display);
 
 const layout = ref({
   width: 2000,
@@ -89,15 +95,33 @@ const layout = ref({
 //  dragPaths = updatedDragPaths;
 //}
 
-
 onMounted(() => {
   //dragsFromNetworkDict(props.networkDict);
   console.log("DrawCanvas display:", props.display);
+
+  // setup svg
+  canv = new KexCanvas("drawingBackground");
+  
+  // test some svg stuff
+  if(true){
+    const arrow = new KexArrow(canv.parentId);
+    arrow.lineWidth = 4.0;
+    arrow.setFromPoint(400, 400);
+    arrow.setToPoint(200, 300);
+    canv.addDrawable(arrow);
+  }
+
+  // render
+  canv.render();
+
 });
 
 watch(() => props.display, (newDisplay, oldDisplay) => {
   console.log("DrawCanvas got a new display:", newDisplay)
+
+
 });
+
 
 
 const backgroundSize = computed(() => {
@@ -107,6 +131,31 @@ const backgroundSize = computed(() => {
   return s;
 });
 
+const createArrows = () => {
+  const arrows = props.display.tractArrows;
+  console.log("creating arrows:", arrows);
+  
+  for(let i = 0; i < arrows.length; i++){
+    const arrow = arrows[i];
+    const a = new KexArrow(canv.parentId);
+    a.lineWidth = 2.0;
+    a.setFromPoint(arrow.fromDraggable.center.x, arrow.fromDraggable.center.y);
+    a.setToPoint(arrow.toDraggable.center.x, arrow.toDraggable.center.y);
+    a.arrowRef = arrow;
+    canv.addDrawable(a);
+  }
+
+  canv.render();
+}
+
+const renderArrows = () => {
+  const arrows = props.display.tractArrows;
+  console.log("rendering arrows:", arrows);
+
+  for(let i = 0; i < arrows.length; i++){
+    
+  }
+}
 
 const mouseUp = () => {
   const drags = props.display.nodeDraggables;

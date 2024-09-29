@@ -11,9 +11,11 @@ class Tract {
   startConnectionIndex = 0;
   endConnectionIndex = 0;
 
-
   // axon + synapse delay (in iterations), defaults to 0
   delay = 0;
+
+  // display arrow
+  arrow = { color: "#000", width: 2.0, fromDraggable: false, toDraggable: false };
 
   /**
     Create a Tract
