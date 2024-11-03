@@ -24,10 +24,11 @@
           </div>
         </div>
         <div class="col-12 mt-1">Quick set 
-          <div class="btn btn-sm btn-outline-secondary mx-1" @click="activateInput.iters=1">1</div>
-          <div class="btn btn-sm btn-outline-secondary mx-1" @click="activateInput.iters=10">10</div>
-          <div class="btn btn-sm btn-outline-secondary mx-1" @click="activateInput.iters=100">100</div>
-          <div class="btn btn-sm btn-outline-secondary mx-1" @click="activateInput.iters=1000">1000</div>
+          <div class="badge badge-sm bg-secondary" @click="activateInput.iters=1">1</div>
+          <div class="badge badge-sm bg-secondary" @click="activateInput.iters=10">10</div>
+          <div class="badge badge-sm bg-secondary" @click="activateInput.iters=100">100</div>
+          <div class="badge badge-sm bg-secondary" @click="activateInput.iters=1000">1000</div>
+          <div class="badge badge-sm bg-secondary" @click="activateInput.iters=10000">10000</div>
         </div>
         <div class="col-4 mt-3">
           <div class="btn btn-primary" @click="activate(activateInput.iters, 1)">activate</div>
@@ -179,7 +180,7 @@ const addTractForm = () => {
     const inNode = network.nodes.getNodeByPath(v.fromPath);
     const outNode = network.nodes.getNodeByPath(v.toPath);
     const tract = new Tract(network, v.path, inNode, outNode);
-    tract.connectBasicLinear(v.sparcity, -0.01, 0.01);
+    tract.connectBasicLinear(v.sparcity, -0.1, 0.1);
     network.tracts.addTract(tract);
 
     refresh();
@@ -221,8 +222,7 @@ const activate = (itersN, visualizeEveryN) => {
 
     
     if(visualizeEveryN > 0 && iter%visualizeEveryN === 0){
-      // TODO
-      //drawCanvas.value.renderActs();
+      drawCanvas.value.renderNodeVariables();
     }
 
     networkStats.value.activationIter = network.nodes.activationIter;
@@ -236,3 +236,17 @@ const activate = (itersN, visualizeEveryN) => {
 
 
 </script>
+
+<style scoped>
+.badge-sm {
+    min-width: 1.8em;
+    padding: .25em !important;
+    margin-left: .1em;
+    margin-right: .1em;
+    color: white !important;
+    cursor: pointer;
+}
+.badge-sm:hover {
+  opacity: 0.85;
+}
+</style>

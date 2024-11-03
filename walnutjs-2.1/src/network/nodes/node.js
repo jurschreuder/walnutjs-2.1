@@ -115,10 +115,37 @@ class Node {
    @param {number} value - The value to set
   */
   setNeuronAtXy(nodeVariable, x, y, value){
-    const index = y * this.width + x;
-    this.setNeuronAtIndex(nodeVariable, index, value);
+    this.setNeuronAtIndex(nodeVariable, this.indexAtXy(x,y), value);
   }
 
+  /**
+   Get the a node variable index based on x,y location
+   @param {number} x - The neuron x location within this node
+   @param {number} y - The  neuron y location within this node
+  */
+  indexAtXy(x, y){
+    return y * this.width + x;
+  }
+
+  /**
+   Get a neuron value based on the neuron local index
+   @param {string} nodeVariable - For example 'net' or 'act'
+   @param {number} index - The local neuron index within this node
+  */
+  neuronAtIndex(nodeVariable, index, value){
+    return this.network.nodes.neurons[nodeVariable][index + this.startNeuronIndex];
+  }
+
+  /**
+   Get a neuron value based on the neuron location
+   @param {string} nodeVariable - For example 'net' or 'act'
+   @param {number} x - The neuron x location within this node
+   @param {number} y - The  neuron y location within this node
+   @param {number} value - The value to set
+  */
+  neuronAtXy(nodeVariable, x, y){
+    return this.neuronAtIndex(nodeVariable, this.indexAtXy(x,y));
+  }
 
   /**
    Use the activateFunction on all outTracts of this Node

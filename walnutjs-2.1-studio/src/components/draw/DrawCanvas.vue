@@ -22,6 +22,7 @@
       :parentId="'drawingBackground'"
       @click="select(index)"
       @dragMove="render"
+      ref="draggables"
     ></Draggable>
 
   </div>
@@ -47,6 +48,9 @@ let canv = false;
 const props = defineProps([
   "display", // WalnutJS network.display
 ]);
+const draggables = ref(false);
+
+ 
 
 const layout = ref({
   width: 2000,
@@ -192,6 +196,12 @@ const renderArrows = () => {
   canv.render();
 }
 
+const renderNodeVariables = (nodeVar, min, max) => {
+  for(let i = 0; i < draggables.value.length; i++){
+    draggables.value[i].renderNodeVariable(nodeVar, min, max);
+  }
+}
+
 const mouseUp = () => {
   const drags = props.display.nodeDraggables;
   for(let i = 0; i < drags.length; i++){
@@ -223,9 +233,7 @@ const unselect = () => {
   render();
 }
 
-defineExpose({
-  render
-})
+defineExpose({renderNodeVariables, render, renderArrows});
 
 </script>
 

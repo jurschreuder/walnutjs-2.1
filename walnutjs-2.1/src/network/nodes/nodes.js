@@ -63,6 +63,8 @@ class Nodes {
   activate(){
     this.activationIter++;
 
+    this.clearAct();
+
     // TODO perform activation_sequence
 
     // TODO just a naive placeholder, sequential
@@ -71,6 +73,13 @@ class Nodes {
       this.nodes[i].activate();
     }
 
+  }
+
+  /**
+   set the 'act' of all nodes to zero again
+  */
+  clearAct(){
+    this.neurons['act'].fill(0);
   }
 
   /**
