@@ -15,86 +15,111 @@
 
     <div class="col-4">
       <!--<JsonEditor></JsonEditor>-->
-    </div>
-  </div>
+      <div class="row">
+        <div class="col-12">
+          <h6>Activate</h6>
+          <div class="input-group">
+            <div class="input-group-text">iters</div>
+            <input v-model="activateInput.iters" type="number" class="form-control" id="activate_iters" placeholder="1000">
+          </div>
+        </div>
+        <div class="col-12 mt-1">Quick set 
+          <div class="btn btn-sm btn-outline-secondary mx-1" @click="activateInput.iters=1">1</div>
+          <div class="btn btn-sm btn-outline-secondary mx-1" @click="activateInput.iters=10">10</div>
+          <div class="btn btn-sm btn-outline-secondary mx-1" @click="activateInput.iters=100">100</div>
+          <div class="btn btn-sm btn-outline-secondary mx-1" @click="activateInput.iters=1000">1000</div>
+        </div>
+        <div class="col-4 mt-3">
+          <div class="btn btn-primary" @click="activate(activateInput.iters, 1)">activate</div>
+        </div>
+        <div class="col-8 mt-3 pt-2">
+          Net iteration: {{networkStats.activationIter}}
+        </div>
+      </div>
 
-  <div class="row">
-
-    <!-- new node -->
-    <div class="col-12 my-4">
-      <form class="row gy-2 gx-3 align-items-center">
-        <div class="col-4">
-          <div class="input-group">
-            <div class="input-group-text">Node path</div>
-            <input v-model="newNode.path" type="text" class="form-control" id="newNode_path" placeholder="visualCortex/V1">
+      <!-- new node -->
+      <hr>
+      <div class="col-12 my-4">
+        <h6>Add node</h6>
+        <form class="row gy-2 gx-3 align-items-center">
+          <div class="col-12">
+            <div class="input-group">
+              <div class="input-group-text">Node path</div>
+              <input v-model="newNode.path" type="text" class="form-control" id="newNode_path" placeholder="visualCortex/V1">
+            </div>
           </div>
-        </div>
-        <div class="col-2">
-          <div class="input-group">
-            <div class="input-group-text">width</div>
-            <input v-model="newNode.w" type="number" class="form-control" id="newNode_w" placeholder="10">
+          <div class="col-6">
+            <div class="input-group">
+              <div class="input-group-text">width</div>
+              <input v-model="newNode.w" type="number" class="form-control" id="newNode_w" placeholder="10">
+            </div>
           </div>
-        </div>
-        <div class="col-2">
-          <div class="input-group">
-            <div class="input-group-text">height</div>
-            <input v-model="newNode.h" type="number" class="form-control" id="newNode_h" placeholder="10">
+          <div class="col-6">
+            <div class="input-group">
+              <div class="input-group-text">height</div>
+              <input v-model="newNode.h" type="number" class="form-control" id="newNode_h" placeholder="10">
+            </div>
           </div>
-        </div>
-        <div class="col-2">
-          <div class="input-group">
-            <div class="input-group-text">color</div>
-            <input v-model="newNode.color" type="color" class="form-control form-control-color" id="newNode_color">
+          <div class="col-6">
+            <div class="input-group">
+              <div class="input-group-text">color</div>
+              <input v-model="newNode.color" type="color" class="form-control form-control-color" id="newNode_color">
+            </div>
           </div>
-        </div>
-        <div class="col-auto">
-          <button type="button" class="btn btn-primary" @click="addNodeForm">Add node</button>
-        </div>
-      </form>
-    </div>
-
-
-    <!-- new tract -->
-    <div class="col-12 my-4">
-      <form class="row gy-2 gx-3 align-items-center">
-        <div class="col-4">
-          <div class="input-group">
-            <div class="input-group-text">Tract path</div>
-            <input v-model="newTract.path" type="text" class="form-control" id="newTract_path" placeholder="visualCortex/tract1">
+          <div class="col-6">
+            <!-- empty -->
           </div>
-        </div>
+          <div class="col-6 mt-3">
+            <button type="button" class="btn btn-primary" @click="addNodeForm">Add node</button>
+          </div>
+        </form>
+      </div>
 
 
-        <div class="col-4">
-          <div class="input-group">
-            <div class="input-group-text">From node path</div>
-            <input v-model="newTract.fromPath" type="text" class="form-control" id="newTract_from_path" placeholder="visualCortex/V1">
+      <!-- new tract -->
+      <hr>
+      <div class="col-12 my-4">
+        <h6>Add tract</h6>
+        <form class="row gy-2 gx-3 align-items-center">
+          <div class="col-12">
+            <div class="input-group">
+              <div class="input-group-text">Tract path</div>
+              <input v-model="newTract.path" type="text" class="form-control" id="newTract_path" placeholder="visualCortex/tract1">
+            </div>
           </div>
-        </div>
 
-        <div class="col-4">
-          <div class="input-group">
-            <div class="input-group-text">To node path</div>
-            <input v-model="newTract.toPath" type="text" class="form-control" id="newTract_to_path" placeholder="visualCortex/V2">
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="input-group">
-            <div class="input-group-text">sparcity</div>
-            <input v-model="newTract.sparcity" type="number" class="form-control" id="newTract_sparcity" placeholder="0.5" max="1.0" min="0.0" step="0.1">
-          </div>
-        </div>
 
-        <div class="col-2">
-          <div class="input-group">
-            <div class="input-group-text">color</div>
-            <input v-model="newTract.color" type="color" class="form-control form-control-color" id="newTract_color">
+          <div class="col-12">
+            <div class="input-group">
+              <div class="input-group-text">From node path</div>
+              <input v-model="newTract.fromPath" type="text" class="form-control" id="newTract_from_path" placeholder="visualCortex/V1">
+            </div>
           </div>
-        </div>
-        <div class="col-auto">
-          <button type="button" class="btn btn-primary" @click="addTractForm">Add tract</button>
-        </div>
-      </form>
+
+          <div class="col-12">
+            <div class="input-group">
+              <div class="input-group-text">To node path</div>
+              <input v-model="newTract.toPath" type="text" class="form-control" id="newTract_to_path" placeholder="visualCortex/V2">
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="input-group">
+              <div class="input-group-text">sparcity</div>
+              <input v-model="newTract.sparcity" type="number" class="form-control" id="newTract_sparcity" placeholder="0.5" max="1.0" min="0.0" step="0.1">
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="input-group">
+              <div class="input-group-text">color</div>
+              <input v-model="newTract.color" type="color" class="form-control form-control-color" id="newTract_color">
+            </div>
+          </div>
+          <div class="col-6 mt-3">
+            <button type="button" class="btn btn-primary" @click="addTractForm">Add tract</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 
@@ -125,6 +150,11 @@ const newNode = ref({ path: "my/node1", w: 10, h: 10, x: 100, y: 100, color: 'rg
 
 const newTract = ref({ path: "my/tract1", fromPath: "my/node1", toPath: "my/node2", sparcity: 0.5, color: 'rgb(0,0,0)'});
 
+const activateInput = ref({ iters: 1000 });
+const networkStats = ref({
+  activationIter: network.nodes.activationIter,
+});
+
 const addNodeForm = () => {
   //if(newNode.path === ""){ return; }
 
@@ -149,7 +179,7 @@ const addTractForm = () => {
     const inNode = network.nodes.getNodeByPath(v.fromPath);
     const outNode = network.nodes.getNodeByPath(v.toPath);
     const tract = new Tract(network, v.path, inNode, outNode);
-    tract.connectBasicLinear(v.sparcity, -1.0, 1.0);
+    tract.connectBasicLinear(v.sparcity, -0.01, 0.01);
     network.tracts.addTract(tract);
 
     refresh();
@@ -173,5 +203,36 @@ const refresh = () => {
 }
 
 refresh();
+
+
+const activate = (itersN, visualizeEveryN) => {
+  
+  // TODO for testing
+  for(let i = 0; i < 8; i++){
+    network.nodes.nodes[0].setNeuronAtIndex("net", i, 1.0);
+  }
+
+
+  itersN = itersN || 1;
+  visualizeEveryN = visualizeEveryN || 0;
+
+  for(let iter = 0; iter < itersN; iter++){
+    network.nodes.activate();
+
+    
+    if(visualizeEveryN > 0 && iter%visualizeEveryN === 0){
+      // TODO
+      //drawCanvas.value.renderActs();
+    }
+
+    networkStats.value.activationIter = network.nodes.activationIter;
+  }
+
+  console.log(network.nodes.neurons.net);
+  console.log(network);
+
+}
+
+
 
 </script>

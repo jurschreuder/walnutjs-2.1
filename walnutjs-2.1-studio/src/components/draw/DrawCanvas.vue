@@ -137,7 +137,7 @@ const render = () => {
 
 const renderArrows = () => {
   const arrows = props.display.tractArrows;
-  console.log("creating arrows:", arrows);
+  //console.log("creating arrows:", arrows);
   
   for(let i = 0; i < arrows.length; i++){
     const arrow = arrows[i];

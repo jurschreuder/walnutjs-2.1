@@ -139,6 +139,9 @@ class Tract {
     });
   }
 
+  // TODO add more initialization methods
+  // https://www.quora.com/What-are-good-initial-weights-in-a-neural-network
+
   /**
     Add value to all connections, such as 'delay', using a generator
     @param {string} tractVariable - The key for this varable, such as 'delay'
