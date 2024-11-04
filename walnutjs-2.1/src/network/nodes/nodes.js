@@ -63,8 +63,6 @@ class Nodes {
   activate(){
     this.activationIter++;
 
-    this.clearAct();
-
     // TODO perform activation_sequence
 
     // TODO just a naive placeholder, sequential
@@ -76,11 +74,27 @@ class Nodes {
   }
 
   /**
-   set the 'act' of all nodes to zero again
+   Set the 'act' of all nodes to zero again
   */
   clearAct(){
     this.neurons['act'].fill(0);
   }
+
+  /**
+   Set the 'net' of all nodes to zero again
+  */
+  clearNet(){
+    this.neurons['net'].fill(0);
+  }
+
+  /**
+   Set the of all nodes to zero again of a specific nodeVariable
+   @param {string} nodeVariable - variable to clear
+  */
+  clearNodeVariable(nodeVariable){
+    this.neurons[nodeVariable].fill(0);
+  }
+
 
   /**
    Use the learnFunction on all Nodes
@@ -187,6 +201,7 @@ class Nodes {
       else{
         throw new Error("Unknown nodeVariable type: "+ nodeVar.type);
       }
+      this.neurons[nodeVar.name].fill(nodeVar.defaultValue);
     }
   }
 

@@ -2,10 +2,10 @@
 
 <div class="draggable"
   :style="{
-    left: (props.drag.x+props.drag.selected*-1)+'px',
-    top: (props.drag.y+props.drag.selected*-1)+'px',
-    width: (props.drag.w + props.drag.selected*2)+'px',
-    height: (props.drag.h + props.drag.selected*2)+'px',
+    left: (props.drag.x-2+props.drag.selected*-2)+'px',
+    top: (props.drag.y-2+props.drag.selected*-2)+'px',
+    width: (props.drag.w+3 + props.drag.selected*5)+'px',
+    height: (props.drag.h+3 + props.drag.selected*5)+'px',
     borderColor: props.drag.color
   }"
   :class="{
@@ -22,8 +22,8 @@
 
   </div>
   
-  <span v-if="props.drag.selected" class="label label-big">{{props.drag.node.path}}</span>
-  <span v-else class="label">{{props.drag.label}}</span>
+  <span v-if="props.drag.selected" class="label label-big" :style="{ color: props.drag.color }">{{props.drag.node.path}}</span>
+  <span v-else class="label" :style="{ color: props.drag.color }">{{props.drag.label}}</span>
 
   <canvas 
     class="inner-canvas" 
@@ -95,7 +95,7 @@ onMounted(() => {
 });
 
 const renderNodeVariable = (nodeVar, min, max) => {
-  nodeVar = nodeVar || "net";
+  nodeVar = nodeVar || "act";
 
   // TODO get the min / max values for this nodeVar
   min = min || -1;
@@ -104,7 +104,10 @@ const renderNodeVariable = (nodeVar, min, max) => {
   const scaleNeg = 255 / min;
 
   const dr = props.drag;
-  console.log("dr", dr);
+  const px1 = dr.neuronPxSize;
+  const px2 = Math.max(1, dr.neuronPxSize-1); // leave 1 px on the edge, but at least 1 px wide
+
+  //console.log("dr", dr);
   for(let x = 0; x < dr.node.width; x++){
     for(let y = 0; y < dr.node.height; y++){
       // get nodeVar value
@@ -119,10 +122,10 @@ const renderNodeVariable = (nodeVar, min, max) => {
 
       // draw on canvas
       ctx.fillRect(
-        x*dr.neuronPxSize,
-        y*dr.neuronPxSize,
-        dr.neuronPxSize,
-        dr.neuronPxSize,
+        1+x*px1,
+        1+y*px1,
+        px2,
+        px2,
       );
     }
   }
@@ -136,7 +139,9 @@ defineExpose({renderNodeVariable})
 <style scoped>
 .draggable{
   position: absolute;
-  opacity: 0.8;
+  opacity: 0.9;
+  border-style: solid;
+  border-width: 2px;
 }
 .draggable-bg{
   position: absolute;
@@ -146,19 +151,19 @@ defineExpose({renderNodeVariable})
 }
 .selected {
   border-style: dashed;
-  border-width: 2px;
+  border-width: 4px;
 }
 .label {
   position: absolute;
   left: 0px;
-  top: -14px;
+  top: -15px;
   display: block;
   font-size: 10px;
   user-select: none;
 }
 .label-big {
-  top: -17px;
-  font-size: 11px;
+  top: -21px;
+  font-size: 12px;
   font-weight: 500;
 }
 

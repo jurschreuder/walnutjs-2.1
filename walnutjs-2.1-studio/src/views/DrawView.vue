@@ -138,9 +138,10 @@ import JsonEditor from "./../components/editor/JsonEditor.vue";
 import DrawCanvas from "./../components/draw/DrawCanvas.vue";
 
 
-import { Network, Node, Tract, BasicActivate } from "walnutjs-2.1"
+import { Network, Node, Tract, BasicActivate, Izhi9param } from "walnutjs-2.1"
 
-const paradigm = new BasicActivate();
+//const paradigm = new BasicActivate();
+const paradigm = new Izhi9param();
 const network = new Network("WalnutJS-2.1 Network", paradigm);
 
 const networkDict = ref(network.dict);
@@ -180,7 +181,8 @@ const addTractForm = () => {
     const inNode = network.nodes.getNodeByPath(v.fromPath);
     const outNode = network.nodes.getNodeByPath(v.toPath);
     const tract = new Tract(network, v.path, inNode, outNode);
-    tract.connectBasicLinear(v.sparcity, -0.1, 0.1);
+    //tract.connectBasicLinear(v.sparcity, -0.5, 0.5);
+    tract.connectBasicLinear(v.sparcity, 0.0, 1.0);
     network.tracts.addTract(tract);
 
     refresh();
@@ -208,28 +210,42 @@ refresh();
 
 const activate = (itersN, visualizeEveryN) => {
   
-  // TODO for testing
-  for(let i = 0; i < 8; i++){
-    network.nodes.nodes[0].setNeuronAtIndex("net", i, 1.0);
-  }
-
 
   itersN = itersN || 1;
   visualizeEveryN = visualizeEveryN || 0;
 
   for(let iter = 0; iter < itersN; iter++){
-    network.nodes.activate();
 
-    
-    if(visualizeEveryN > 0 && iter%visualizeEveryN === 0){
-      drawCanvas.value.renderNodeVariables();
-    }
+    setTimeout(() => {
 
-    networkStats.value.activationIter = network.nodes.activationIter;
+      // clear network
+      //network.nodes.clearNet();
+      //network.nodes.clearAct();
+
+      // add some test activation
+      for(let i = 0; i < 100; i++){
+        //network.nodes.nodes[0].setNeuronAtIndex("net", i+iter%80, 1.0);
+        //network.nodes.nodes[0].setNeuronAtIndex("net", i, 25.0);
+        //network.nodes.nodes[0].setNeuronAtIndex("act", i, 25.0);
+        network.nodes.nodes[0].setNeuronAtIndex("I", i, 100.0);
+      }
+
+      
+      // run network
+      network.nodes.activate();
+
+      
+      if(visualizeEveryN > 0 && iter%visualizeEveryN === 0){
+        drawCanvas.value.renderNodeVariables('act');
+      }
+
+      networkStats.value.activationIter = network.nodes.activationIter;
+
+    }, 0);
   }
 
-  console.log(network.nodes.neurons.net);
-  console.log(network);
+  console.log(network.nodes.neurons);
+  //console.log(network);
 
 }
 

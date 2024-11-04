@@ -67,8 +67,8 @@ class NodeDraggable {
     this.x = x;
     this.y = y;
     this.color = color || "#ddd";
-    this.w = node.width * this.neuronPxSize;
-    this.h = node.height * this.neuronPxSize;
+    this.w = node.width * this.neuronPxSize + 1;
+    this.h = node.height * this.neuronPxSize + 1;
     this.label = node.path.split("/").at(-1);
   }
 
