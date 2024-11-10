@@ -93,7 +93,10 @@ class Tracts {
     for(let i = 0; i < this.tracts.length; i++){
       const tract = this.tracts[i];
       tract.startConnectionIndex = connectionLayout.length;
-      connectionLayout.push(...tract.connections);
+      //connectionLayout.push(...tract.connections);
+      for(let j = 0; j < tract.connections.length; j++){
+        connectionLayout.push(tract.connections[j]);
+      }
       tract.endConnectionIndex = connectionLayout.length;
     }
     this.connectionsLen = connectionLayout.length;

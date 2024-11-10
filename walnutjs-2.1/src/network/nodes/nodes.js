@@ -66,7 +66,7 @@ class Nodes {
     // TODO perform activation_sequence
 
     // TODO just a naive placeholder, sequential
-
+//
     for(let i = 0; i < this.nodes.length; i++){
       this.nodes[i].activate();
     }
@@ -77,14 +77,14 @@ class Nodes {
    Set the 'act' of all nodes to zero again
   */
   clearAct(){
-    this.neurons['act'].fill(0);
+    this.clearNodeVariable('act');
   }
 
   /**
    Set the 'net' of all nodes to zero again
   */
   clearNet(){
-    this.neurons['net'].fill(0);
+    this.clearNodeVariable('net');
   }
 
   /**
@@ -93,6 +93,10 @@ class Nodes {
   */
   clearNodeVariable(nodeVariable){
     this.neurons[nodeVariable].fill(0);
+    //console.log("clearing", this.neuronsLen);
+    //for(let i = 0; i < this.neuronsLen; i++){
+    //  this.neurons[nodeVariable][i] = 0.0;
+    //}
   }
 
 

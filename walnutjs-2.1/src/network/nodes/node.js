@@ -76,9 +76,10 @@ class Node {
     @param {number} x - The x location of the element in the visual builder.
     @param {number} x - The x location of the element in the visual builder.
     @param {string} [color='#ddd'] - The color of the element in the visual builder.
+    @param {number} [neuronPxSize=4] - How many pixels the nodes are visualized in 
   */
-  addDraggable(x, y, color){
-    this.draggable = new NodeDraggable(this, x, y, color);
+  addDraggable(x, y, color, neuronPxSize){
+    this.draggable = new NodeDraggable(this, x, y, color, neuronPxSize);
   }
 
   /**

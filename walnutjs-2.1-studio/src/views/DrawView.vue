@@ -36,6 +36,26 @@
         <div class="col-8 mt-3 pt-2">
           Net iteration: {{networkStats.activationIter}}
         </div>
+        <div class="col-12 mt-2 mb-1">
+          Visualize 
+          <div v-for="v in networkStats.nodeVariables" 
+              class="badge badge-sm" 
+              :class="{ 'bg-primary': v.name === networkStats.curNodeVariable.name, 'bg-secondary': v.name !== networkStats.curNodeVariable.name }"
+              @click="visualizeNodeVar(v)">
+            {{v.name}}</div>
+        </div>
+        <div class="col-6">
+          <div class="input-group">
+            <div class="input-group-text">min</div>
+            <input v-model="networkStats.curNodeVariable.range[0]" type="number" class="form-control">
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="input-group">
+            <div class="input-group-text">max</div>
+            <input v-model="networkStats.curNodeVariable.range[1]" type="number" class="form-control">
+          </div>
+        </div>
       </div>
 
       <!-- new node -->
@@ -49,16 +69,22 @@
               <input v-model="newNode.path" type="text" class="form-control" id="newNode_path" placeholder="visualCortex/V1">
             </div>
           </div>
-          <div class="col-6">
+          <div class="col-4">
             <div class="input-group">
               <div class="input-group-text">width</div>
               <input v-model="newNode.w" type="number" class="form-control" id="newNode_w" placeholder="10">
             </div>
           </div>
-          <div class="col-6">
+          <div class="col-4">
             <div class="input-group">
               <div class="input-group-text">height</div>
               <input v-model="newNode.h" type="number" class="form-control" id="newNode_h" placeholder="10">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="input-group">
+              <div class="input-group-text">pixels</div>
+              <input v-model="newNode.pxSize" type="number" class="form-control" id="newNode_pxSize" placeholder="4">
             </div>
           </div>
           <div class="col-6">
@@ -148,13 +174,16 @@ const networkDict = ref(network.dict);
 const display = ref(network.display);
 const drawCanvas = ref(null);
 
-const newNode = ref({ path: "my/node1", w: 10, h: 10, x: 100, y: 100, color: 'rgb(0,0,0)'});
+const newNode = ref({ path: "my/node1", w: 10, h: 10, x: 100, y: 100, color: 'rgb(0,0,0)', pxSize: 4});
 
 const newTract = ref({ path: "my/tract1", fromPath: "my/node1", toPath: "my/node2", sparcity: 0.5, color: 'rgb(0,0,0)'});
 
 const activateInput = ref({ iters: 1000 });
 const networkStats = ref({
   activationIter: network.nodes.activationIter,
+
+  curNodeVariable: {name: "act", range: [-1,1]},
+  nodeVariables: network.nodes.nodeVariables,
 });
 
 const addNodeForm = () => {
@@ -162,12 +191,15 @@ const addNodeForm = () => {
 
   try{
     const v = newNode.value;
-    console.log(v);
     const node = new Node(network, v.path, v.w, v.h);
-    node.addDraggable(v.x, v.y, v.color);
+    node.addDraggable(v.x, v.y, v.color, v.pxSize);
     network.nodes.addNode(node);
 
+    // might have added new node variables, update
+
     refresh();
+
+    console.log(networkStats);
   }catch(e){
     console.log(e);
   }
@@ -198,6 +230,8 @@ const refresh = () => {
 
   networkDict.value = network.dict;
 
+  networkStats.value.nodeVariables = network.nodes.nodeVariables;
+
   display.value.createHierarchy();
   //console.log("display.value", display.value);
   if(drawCanvas.value){
@@ -219,16 +253,18 @@ const activate = (itersN, visualizeEveryN) => {
     setTimeout(() => {
 
       // clear network
-      //network.nodes.clearNet();
+
+      network.nodes.clearNet();
       //network.nodes.clearAct();
 
       // add some test activation
-      for(let i = 0; i < 100; i++){
-        //network.nodes.nodes[0].setNeuronAtIndex("net", i+iter%80, 1.0);
-        //network.nodes.nodes[0].setNeuronAtIndex("net", i, 25.0);
-        //network.nodes.nodes[0].setNeuronAtIndex("act", i, 25.0);
-        network.nodes.nodes[0].setNeuronAtIndex("I", i, 100.0);
-      }
+        for(let i = 0; i < 100; i++){
+          //network.nodes.nodes[0].setNeuronAtIndex("net", i+iter%80, 1.0);
+          //network.nodes.nodes[0].setNeuronAtIndex("net", i, 100.0);
+          //network.nodes.nodes[0].setNeuronAtIndex("act", i, 1.0);
+          network.nodes.nodes[0].setNeuronAtIndex("I", i, 1000.0);
+        }
+      //}
 
       
       // run network
@@ -236,17 +272,24 @@ const activate = (itersN, visualizeEveryN) => {
 
       
       if(visualizeEveryN > 0 && iter%visualizeEveryN === 0){
-        drawCanvas.value.renderNodeVariables('act');
+        const nv = networkStats.value.curNodeVariable;
+        drawCanvas.value.renderNodeVariables( nv.name, nv.range[0], nv.range[1] );
       }
 
       networkStats.value.activationIter = network.nodes.activationIter;
 
-    }, 0);
+    }, 5);
   }
 
   console.log(network.nodes.neurons);
-  //console.log(network);
+  console.log(network);
 
+}
+
+const visualizeNodeVar = (nodeVar) => {
+  const nv = { name: nodeVar.name, range: [nodeVar.range[0], nodeVar.range[1]] }
+  networkStats.value.curNodeVariable = nv;
+  drawCanvas.value.renderNodeVariables( nv.name, nv.range[0], nv.range[1] );
 }
 
 

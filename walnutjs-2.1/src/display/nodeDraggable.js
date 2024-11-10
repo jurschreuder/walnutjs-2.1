@@ -61,12 +61,13 @@ class NodeDraggable {
     @param {number} y - The y position in the visual builder
     @param {string} [color='#ddd'] - Hex color to give to the element
   */
-  constructor(node, x, y, color){
+  constructor(node, x, y, color, neuronPxSize){
     console.log("creating draggable for node", node);
     this.node = node;
     this.x = x;
     this.y = y;
     this.color = color || "#ddd";
+    this.neuronPxSize = neuronPxSize || 4;
     this.w = node.width * this.neuronPxSize + 1;
     this.h = node.height * this.neuronPxSize + 1;
     this.label = node.path.split("/").at(-1);
