@@ -4,8 +4,8 @@
   :style="{
     left: (props.drag.x-2+props.drag.selected*-2)+'px',
     top: (props.drag.y-2+props.drag.selected*-2)+'px',
-    width: (props.drag.w+3 + props.drag.selected*5)+'px',
-    height: (props.drag.h+3 + props.drag.selected*5)+'px',
+    width: (props.drag.w+4 + props.drag.selected*5)+'px',
+    height: (props.drag.h+4 + props.drag.selected*5)+'px',
     borderColor: props.drag.color
   }"
   :class="{

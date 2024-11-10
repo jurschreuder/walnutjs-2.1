@@ -131,7 +131,7 @@
 
 <script setup>
 
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 
 import JsonEditor from "./../components/editor/JsonEditor.vue";
 
@@ -140,12 +140,17 @@ import DrawCanvas from "./../components/draw/DrawCanvas.vue";
 
 import { Network, Node, Tract, BasicActivate, Izhi9param } from "walnutjs-2.1"
 
-//const paradigm = new BasicActivate();
-const paradigm = new Izhi9param();
-const network = new Network("WalnutJS-2.1 Network", paradigm);
+const walnut = inject('walnut');
 
-const networkDict = ref(network.dict);
-const display = ref(network.display);
+{
+  //const paradigm = new BasicActivate();
+  console.log("walnut", walnut);
+  const paradigm = new Izhi9param();
+  walnut.network = new Network("WalnutJS-2.1 Network", paradigm);
+}
+
+const networkDict = ref(walnut.network.dict);
+const display = ref(walnut.network.display);
 const drawCanvas = ref(null);
 
 const newNode = ref({ path: "my/node1", w: 10, h: 10, x: 100, y: 100, color: 'rgb(0,0,0)'});
@@ -154,7 +159,7 @@ const newTract = ref({ path: "my/tract1", fromPath: "my/node1", toPath: "my/node
 
 const activateInput = ref({ iters: 1000 });
 const networkStats = ref({
-  activationIter: network.nodes.activationIter,
+  activationIter: walnut.network.nodes.activationIter,
 });
 
 const addNodeForm = () => {
@@ -163,9 +168,9 @@ const addNodeForm = () => {
   try{
     const v = newNode.value;
     console.log(v);
-    const node = new Node(network, v.path, v.w, v.h);
+    const node = new Node(walnut.network, v.path, v.w, v.h);
     node.addDraggable(v.x, v.y, v.color);
-    network.nodes.addNode(node);
+    walnut.network.nodes.addNode(node);
 
     refresh();
   }catch(e){
@@ -178,12 +183,12 @@ const addTractForm = () => {
   try{
     const v = newTract.value;
     console.log(v);
-    const inNode = network.nodes.getNodeByPath(v.fromPath);
-    const outNode = network.nodes.getNodeByPath(v.toPath);
-    const tract = new Tract(network, v.path, inNode, outNode);
+    const inNode = walnut.network.nodes.getNodeByPath(v.fromPath);
+    const outNode = walnut.network.nodes.getNodeByPath(v.toPath);
+    const tract = new Tract(walnut.network, v.path, inNode, outNode);
     //tract.connectBasicLinear(v.sparcity, -0.5, 0.5);
     tract.connectBasicLinear(v.sparcity, 0.0, 1.0);
-    network.tracts.addTract(tract);
+    walnut.network.tracts.addTract(tract);
 
     refresh();
   }catch(e){
@@ -192,11 +197,11 @@ const addTractForm = () => {
 }
 
 const refresh = () => {
-  //console.log("network:", network);
-  //console.log("network dict:", network.dict);
-  //console.log("network display:", network.display);
+  //console.log("walnut.network:", walnut.network);
+  //console.log("network dict:", walnut.network.dict);
+  //console.log("network display:", walnut.network.display);
 
-  networkDict.value = network.dict;
+  networkDict.value = walnut.network.dict;
 
   display.value.createHierarchy();
   //console.log("display.value", display.value);
@@ -219,33 +224,33 @@ const activate = (itersN, visualizeEveryN) => {
     setTimeout(() => {
 
       // clear network
-      //network.nodes.clearNet();
-      //network.nodes.clearAct();
+      //walnut.network.nodes.clearNet();
+      //walnut.network.nodes.clearAct();
 
       // add some test activation
       for(let i = 0; i < 100; i++){
-        //network.nodes.nodes[0].setNeuronAtIndex("net", i+iter%80, 1.0);
-        //network.nodes.nodes[0].setNeuronAtIndex("net", i, 25.0);
-        //network.nodes.nodes[0].setNeuronAtIndex("act", i, 25.0);
-        network.nodes.nodes[0].setNeuronAtIndex("I", i, 100.0);
+        //walnut.network.nodes.nodes[0].setNeuronAtIndex("net", i+iter%80, 1.0);
+        //walnut.network.nodes.nodes[0].setNeuronAtIndex("net", i, 25.0);
+        //walnut.network.nodes.nodes[0].setNeuronAtIndex("act", i, 25.0);
+        walnut.network.nodes.nodes[0].setNeuronAtIndex("I", i, 100.0);
       }
 
       
       // run network
-      network.nodes.activate();
+      walnut.network.nodes.activate();
 
       
       if(visualizeEveryN > 0 && iter%visualizeEveryN === 0){
         drawCanvas.value.renderNodeVariables('act');
       }
 
-      networkStats.value.activationIter = network.nodes.activationIter;
+      networkStats.value.activationIter = walnut.network.nodes.activationIter;
 
-    }, 0);
+    }, 5);
   }
 
-  console.log(network.nodes.neurons);
-  //console.log(network);
+  console.log(walnut.network.nodes.neurons);
+  //console.log(walnut.network);
 
 }
 
