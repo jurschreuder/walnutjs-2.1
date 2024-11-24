@@ -33,6 +33,12 @@
           </router-link>
         </li>
         <li class="nav-item">
+          <router-link to="/visualize" class="nav-link" active-class="active">
+            <i class="ri-graph-line"></i>
+            <span class="menu-name">Visualize</span>
+          </router-link>
+        </li>
+        <li class="nav-item">
           <router-link to="/about" class="nav-link" active-class="active">
             <i class="ri-file-copy-2-line"></i>
             <span class="menu-name">About</span>

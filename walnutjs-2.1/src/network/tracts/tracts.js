@@ -29,6 +29,30 @@ class Tracts {
     return this.network.paradigm;
   }
 
+
+
+  get dict(){
+    const dict = {
+      tracts: [],
+    }
+    for(let i = 0; i < this.tracts.length; i++){
+      dict.tracts.push(this.tracts[i].dict); 
+    }
+    return dict;
+  }
+
+  fromDict(dict){
+    for(let i = 0; i < dict.tracts.length; i++){
+      const d = dict.tracts[i];
+      const fromNode = this.network.nodes.getNodeByPath(d.fromNodePath);
+      const toNode = this.network.nodes.getNodeByPath(d.toNodePath);
+      const tract = new Tract(this.network, d.path, fromNode, toNode);
+      tract.connections = d.connections;
+      this.addTract(tract, true);
+    }
+    this.generateConnections(true);
+  }
+
   /**
    Get a tract using the tract's path
    @param {string} path - Tract path

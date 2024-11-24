@@ -12,7 +12,7 @@ class Nodes {
   nodePaths = {}; // nodePaths[ <path> ] = Node
 
   // neurons_global
-  neurons = {};
+  neurons = {}; // neurons[nodeVariable][val,val,val,...]
   neuronsLen = 0; // number of neurons so far
 
   // keep track of all the node variables added tot he node so far
@@ -45,6 +45,16 @@ class Nodes {
     return dict;
   }
 
+  fromDict(dict){
+    this.nodeVariables = dict.nodeVariables;
+    for(let i = 0; i < dict.nodes.length; i++){
+      const d = dict.nodes[i];
+      const node = new Node(this.network, d.path, d.width, d.height);
+      this.addNode(node, true);
+    }
+    this.initNeurons();
+  }
+
   /**
    Get a node using the node's path
    @param {string} path - Node path
@@ -66,7 +76,6 @@ class Nodes {
     // TODO perform activation_sequence
 
     // TODO just a naive placeholder, sequential
-//
     for(let i = 0; i < this.nodes.length; i++){
       this.nodes[i].activate();
     }

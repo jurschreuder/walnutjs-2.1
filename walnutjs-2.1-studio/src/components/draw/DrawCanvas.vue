@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch, reactive } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch, reactive } from 'vue'
 
 import Draggable from './Draggable.vue'
 
@@ -119,6 +119,11 @@ onMounted(() => {
   // render
   canv.render();
 
+});
+
+onUnmounted(() => {
+  canv.destroy();
+  canv = null;
 });
 
 watch(() => props.display, (newDisplay, oldDisplay) => {
