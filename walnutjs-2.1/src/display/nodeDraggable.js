@@ -73,6 +73,16 @@ class NodeDraggable {
     this.label = node.path.split("/").at(-1);
   }
 
+  get dict(){
+    const dict = {
+      x: this.x,
+      y: this.y,
+      color: this.color,
+      neuronPxSize: this.neuronPxSize,
+    }
+    return dict;
+  }
+
   set neuronPxSize(px){
     this.neuronPxSize = px;
     this.w = node.width * this.neuronPxSize;

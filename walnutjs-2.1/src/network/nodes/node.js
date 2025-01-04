@@ -67,6 +67,11 @@ class Node {
       startNeuronIndex: this.startNeuronIndex,
       endNeuronIndex: this.endNeuronIndex
     }
+
+    // add visualisation info
+    if(this.draggable){ 
+      dict.draggable = this.draggable.dict; }
+
     return dict;
   }
   

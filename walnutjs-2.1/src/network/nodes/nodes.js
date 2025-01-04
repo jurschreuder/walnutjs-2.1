@@ -50,6 +50,9 @@ class Nodes {
     for(let i = 0; i < dict.nodes.length; i++){
       const d = dict.nodes[i];
       const node = new Node(this.network, d.path, d.width, d.height);
+      if(d.draggable){
+        node.addDraggable(d.draggable.x, d.draggable.y, d.draggable.color); 
+      }
       this.addNode(node, true);
     }
     this.initNeurons();
