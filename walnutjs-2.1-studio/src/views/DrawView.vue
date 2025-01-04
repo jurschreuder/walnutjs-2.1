@@ -148,11 +148,23 @@
           </div>
           <div class="col-6">
             <div class="input-group">
+              <div class="input-group-text">min weight</div>
+              <input v-model="newTract.minWeight" type="number" class="form-control" id="newTract_minWeight" placeholder="-1.0" step="0.1">
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="input-group">
+              <div class="input-group-text">max weight</div>
+              <input v-model="newTract.maxWeight" type="number" class="form-control" id="newTract_maxWeight" placeholder="1.0" step="0.1">
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="input-group">
               <div class="input-group-text">sparcity</div>
               <input v-model="newTract.sparcity" type="number" class="form-control" id="newTract_sparcity" placeholder="0.5" max="1.0" min="0.0" step="0.1">
             </div>
           </div>
-
           <div class="col-6">
             <div class="input-group">
               <div class="input-group-text">color</div>
@@ -200,7 +212,15 @@ const drawCanvas = ref(null);
 
 const newNode = ref({ path: "my/node1", w: 10, h: 10, x: 100, y: 100, color: 'rgb(0,0,0)', pxSize: 4});
 
-const newTract = ref({ path: "my/tract1", fromPath: "my/node1", toPath: "my/node2", sparcity: 0.5, color: 'rgb(0,0,0)'});
+const newTract = ref({ 
+  path: "my/tract1", 
+  fromPath: "my/node1", 
+  toPath: "my/node2", 
+  color: 'rgb(0,0,0)',
+  sparcity: 0.5, 
+  minWeight: 0.0,
+  maxWeight: 1.0,
+});
 
 const activateInput = ref({ iters: 1000 });
 const networkStats = ref({
@@ -246,7 +266,7 @@ const addTractForm = () => {
     const outNode = walnut.network.nodes.getNodeByPath(v.toPath);
     const tract = new Tract(walnut.network, v.path, inNode, outNode);
     //tract.connectBasicLinear(v.sparcity, -0.5, 0.5);
-    tract.connectBasicLinear(v.sparcity, 0.0, 1.0);
+    tract.connectBasicLinear(v.sparcity, v.minWeight, v.maxWeight);
     walnut.network.tracts.addTract(tract);
 
     refresh();
@@ -334,9 +354,9 @@ const activate = async (itersN, visualizeEveryN, isRecording) => {
 
       // add some test activation
       if(iter > 100 && iter < 200){
-        for(let i = 0; i < 100; i++){
+        for(let i = iter%4; i < 100; i+=4){
           //walnut.network.nodes.nodes[0].setNeuronAtIndex("act", i, 1.0);
-          walnut.network.nodes.nodes[0].setNeuronAtIndex("net", i, 100.0);
+          walnut.network.nodes.nodes[0].setNeuronAtIndex("net", i, 40.0);
           //walnut.network.nodes.nodes[0].setNeuronAtIndex("act", i, 1.0);
           //walnut.network.nodes.nodes[0].setNeuronAtIndex("I", i, 65.0);
         }

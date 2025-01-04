@@ -2,6 +2,18 @@
 
 <div>
 
+  <div class="row">
+    <div class="col-4">
+      <div class="input-group mb-3">
+        <span class="input-group-text">min</span>
+        <input type="number" class="form-control" v-model="conf.min">
+        <span class="input-group-text">max</span>
+        <input type="number" class="form-control" v-model="conf.max">
+        <button class="btn btn-outline-secondary" type="button" @click="render()">render</button>
+      </div>
+    </div>
+  </div>
+
   <canvas 
     ref="canvas" 
     :width="canvWidth" 
@@ -29,6 +41,11 @@ let ctx = false;
 const canvWidth = ref(1000);
 const canvHeight = ref(100);
 
+const conf = ref({
+  min: -1,
+  max: 1,
+});
+
 const mouseDown = (evt) => {
   // todo
   //    evt.offsetX,
@@ -53,7 +70,7 @@ onMounted(() => {
   // draw on canvas
   ctx.fillRect(0, 0, 100, 100);
 
-  render(props.min,props.max);
+  render();
 
 });
 
@@ -76,8 +93,9 @@ const render = (min, max) => {
   //canvHeight.value = node.flatSize.toFixed(0);
   console.log("canvW", canvWidth.value, "canvH", canvHeight.value);
 
-  min = min || -1;
-  max = max || 1;
+  min = min || conf.value.min;
+  max = max || conf.value.max;
+  console.log("conf.min", conf.value.min, "rendering", min, max);
   const scalePos = 255 / max;
   const scaleNeg = 255 / min;
 
