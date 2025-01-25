@@ -53,7 +53,7 @@ class Izhi9paramDelay extends Paradigm {
   constructor() {
     super("Izhikevich 9 parameter spiking neuron model");
 
-    historyLength = 10; // how long the history ring buffer should be
+    this.historyLength = 50; // how long the history ring buffer should be
 
     // init default values to "Regular Spiking (RS)"
     this.nodeVariables.push( new NodeVariable("a", "float32", 0.03, [-0.1, 0.1]) );

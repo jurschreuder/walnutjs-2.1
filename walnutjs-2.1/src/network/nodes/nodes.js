@@ -232,8 +232,6 @@ class Nodes {
 
         if(nodeVar.name === nodeVar2.name){
           found = true;
-          // check if there is a conflict
-          nodeVar.checkSimilar(nodeVar2);
         }
       }
       // fill in missing nodeVariables for the neurons so far
@@ -276,7 +274,7 @@ class Nodes {
       const nodeVar = this.nodeHistVariables[i];
       if(nodeVar.type === "int32"){
         this.histNeurons[nodeVar.name] = [];
-        for(let j = 0; j < histLen; i++){
+        for(let j = 0; j < histLen; j++){
           const arr = new Int32Array(this.neuronsLen);
           arr.fill(nodeVar.defaultValue);
           this.histNeurons[nodeVar.name].push(arr);
@@ -284,7 +282,7 @@ class Nodes {
       }
       else if(nodeVar.type === "int8"){
         this.histNeurons[nodeVar.name] = [];
-        for(let j = 0; j < histLen; i++){
+        for(let j = 0; j < histLen; j++){
           const arr = new Int8Array(this.neuronsLen);
           arr.fill(nodeVar.defaultValue);
           this.histNeurons[nodeVar.name].push(arr);
@@ -292,7 +290,7 @@ class Nodes {
       }
       else if(nodeVar.type === "float32"){
         this.histNeurons[nodeVar.name] = [];
-        for(let j = 0; j < histLen; i++){
+        for(let j = 0; j < histLen; j++){
           const arr = new Float32Array(this.neuronsLen);
           arr.fill(nodeVar.defaultValue);
           this.histNeurons[nodeVar.name].push(arr);

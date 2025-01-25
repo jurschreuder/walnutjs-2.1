@@ -135,7 +135,7 @@ class Tracts {
 
         // connection vars
         for (const [key, value] of Object.entries(conn)) {
-          if(key !== "from" && key !== "to"){ // always have these
+          if(key !== "from" && key !== "to" && key !== "delay"){ // always have these
             let found = false;
             // paradigm vars
             for(let j = 0; j < this.paradigm.tractVariables.length; j++){

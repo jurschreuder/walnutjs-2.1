@@ -171,6 +171,12 @@
               <input v-model="newTract.color" type="color" class="form-control form-control-color" id="newTract_color">
             </div>
           </div>
+          <div class="col-6">
+            <div class="input-group">
+              <div class="input-group-text">delay</div>
+              <input v-model="newTract.delay" type="number" class="form-control" id="newTract_sparcity" placeholder="0" max="40" min="0" step="1">
+            </div>
+          </div>
           <div class="col-6 mt-3">
             <button type="button" class="btn btn-primary" @click="addTractForm">Add tract</button>
           </div>
@@ -193,7 +199,7 @@ import JsonEditor from "./../components/editor/JsonEditor.vue";
 import DrawCanvas from "./../components/draw/DrawCanvas.vue";
 
 
-import { Network, Node, Tract, BasicActivate, Izhi9param } from "walnutjs-2.1"
+import { Network, Node, Tract, BasicActivate, Izhi9param, Izhi9paramDelay } from "walnutjs-2.1"
 
 const walnut = inject('walnut');
 
@@ -201,7 +207,8 @@ const walnut = inject('walnut');
   //const paradigm = new BasicActivate();
   console.log("walnut", walnut);
   if(!walnut.network){
-    const paradigm = new Izhi9param();
+    //const paradigm = new Izhi9param();
+    const paradigm = new Izhi9paramDelay();
     walnut.network = new Network("WalnutJS-2.1 Network", paradigm);
   }
 }
@@ -220,6 +227,7 @@ const newTract = ref({
   sparcity: 0.5, 
   minWeight: 0.0,
   maxWeight: 1.0,
+  delay: 0,
 });
 
 const activateInput = ref({ iters: 1000 });
@@ -244,8 +252,11 @@ const addNodeForm = () => {
     const v = newNode.value;
     console.log(v);
     const node = new Node(walnut.network, v.path, v.w, v.h);
+    console.log("newNode", node);
     node.addDraggable(v.x, v.y, v.color);
+
     walnut.network.nodes.addNode(node);
+    console.log("newNetwork", walnut.network);
 
     // might have added new node variables, update
 
@@ -264,7 +275,7 @@ const addTractForm = () => {
     console.log(v);
     const inNode = walnut.network.nodes.getNodeByPath(v.fromPath);
     const outNode = walnut.network.nodes.getNodeByPath(v.toPath);
-    const tract = new Tract(walnut.network, v.path, inNode, outNode);
+    const tract = new Tract(walnut.network, v.path, inNode, outNode, walnut.network.paradigm, v.delay);
     //tract.connectBasicLinear(v.sparcity, -0.5, 0.5);
     tract.connectBasicLinear(v.sparcity, v.minWeight, v.maxWeight);
     walnut.network.tracts.addTract(tract);
