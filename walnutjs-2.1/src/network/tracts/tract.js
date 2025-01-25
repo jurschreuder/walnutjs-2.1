@@ -51,6 +51,17 @@ class Tract {
     
   }
 
+  get dict(){
+    const dict = {
+      path: this.path,
+      fromNodePath: this.fromNode.path,
+      toNodePath: this.toNode.path,
+      connections: this.connections,
+    }
+    return dict;
+  }
+
+
   /**
     Add a connection
     @param {Object.<string, number>} connection - Connection tractVariable and value
