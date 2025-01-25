@@ -46,7 +46,8 @@ class Tracts {
       const d = dict.tracts[i];
       const fromNode = this.network.nodes.getNodeByPath(d.fromNodePath);
       const toNode = this.network.nodes.getNodeByPath(d.toNodePath);
-      const tract = new Tract(this.network, d.path, fromNode, toNode);
+      const paradigm = this.network.paradigm; // no support for different paradigm per tract save yet
+      const tract = new Tract(this.network, d.path, fromNode, toNode, paradigm, d.delay);
       tract.connections = d.connections;
       this.addTract(tract, true);
     }
@@ -100,8 +101,7 @@ class Tracts {
       if(tract.connections.length === 0){
         throw new Error("Trying to add a tract without any connections");
       }
-      this.generateConnections(true);
-    }
+      this.generateConnections(true); }
   }
 
 
@@ -166,6 +166,7 @@ class Tracts {
     // init arrays
     this.connections["from"] = new Int32Array(this.connectionsLen);
     this.connections["to"] = new Int32Array(this.connectionsLen);
+    this.connections["delay"] = new Int32Array(this.connectionsLen);
 
     // specific to paradigm
     for(let i = 0; i < this.paradigm.tractVariables.length; i++){

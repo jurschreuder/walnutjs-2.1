@@ -24,8 +24,9 @@ class Tract {
     @param {Node} fromNode - The Node this Tract connects from
     @param {Node} toNode - The Node this Tract connects to
     @param {Paradigm} [paradigm] - The Paradigm providing the tractActivateFunction, tractLearnFunction and other settings
+    @param {int} delay - Axon delay for this tract
    */
-  constructor(network, path, fromNode, toNode, paradigm) {
+  constructor(network, path, fromNode, toNode, paradigm, delay) {
     this.network = network;
 
     this.path = path;
@@ -34,6 +35,8 @@ class Tract {
     this.toNode = toNode;
 
     this.paradigm = paradigm || network.paradigm;
+
+    this.delay = delay || 0;
 
 
     // add activate function from paradigm
@@ -56,6 +59,7 @@ class Tract {
       path: this.path,
       fromNodePath: this.fromNode.path,
       toNodePath: this.toNode.path,
+      delay: this.delay,
       connections: this.connections,
     }
     return dict;
@@ -113,7 +117,8 @@ class Tract {
           const conn = {
             from: i,
             to: j,
-            weight: weightGenerator()
+            weight: weightGenerator(),
+            delay: this.delay,
           }
           this.connections.push(conn);
         }

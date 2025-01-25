@@ -42,11 +42,18 @@ class Izhi9paramDelay extends Paradigm {
     const neurons = network.nodes.neurons;
     const conns = network.tracts.connections;
 
-    neurons.net[conns.to[i]] +=  neurons.act[conns.from[i]] * conns.weight[i];
+    // get neuron.act at delay
+    //
+    // For reference without delay: neurons.net[conns.to[i]] +=  neurons.act[conns.from[i]] * conns.weight[i];
+    //
+    const histAct = network.nodes.histNeuronAtIndex("act", conns.from[i], conns.delay[i]);
+    neurons.net[conns.to[i]] +=  histAct * conns.weight[i];
   };
 
   constructor() {
     super("Izhikevich 9 parameter spiking neuron model");
+
+    historyLength = 10; // how long the history ring buffer should be
 
     // init default values to "Regular Spiking (RS)"
     this.nodeVariables.push( new NodeVariable("a", "float32", 0.03, [-0.1, 0.1]) );

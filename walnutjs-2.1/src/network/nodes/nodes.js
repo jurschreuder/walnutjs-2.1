@@ -49,6 +49,7 @@ class Nodes {
 
   fromDict(dict){
     this.nodeVariables = dict.nodeVariables;
+    this.nodeHistVariables = dict.nodeHistVariables;
     for(let i = 0; i < dict.nodes.length; i++){
       const d = dict.nodes[i];
       const node = new Node(this.network, d.path, d.width, d.height);
@@ -73,10 +74,23 @@ class Nodes {
   }
 
   /**
+   Get a neuron value based on the neuron local index
+   @param {string} nodeVariable - For example 'net' or 'act'
+   @param {number} index - The global neuron index
+   @param {number} delay - The delay in the ringbuffer of the histNeurons
+  */
+  histNeuronAtIndex(nodeVariable, index, delay){
+    // get the index of the ringbuffer at the provided delay
+    let delayIndex = (this.activationIter % this.historyLength) - delay;
+    if(delayIndex < 0){ delayIndex += this.historyLength; }
+
+    return this.histNeurons[nodeVariable][delayIndex][index];
+  }
+
+  /**
    Use the activateFunction on all Nodes
   */
   activate(){
-    this.activationIter++;
 
     // TODO perform activation_sequence
 
@@ -85,6 +99,14 @@ class Nodes {
       this.nodes[i].activate();
     }
 
+    // Copy nodeHistVariables to ring buffer
+    const histIndex = this.activationIter % this.historyLength;
+    for(let i = 0; i < this.nodeHistVariables.length; i++){
+      const varName = this.nodeHistVariables[i].name;
+      this.histNeurons[varName][histIndex].set(this.neurons[varName]);
+    }
+
+    this.activationIter++;
   }
 
   /**
