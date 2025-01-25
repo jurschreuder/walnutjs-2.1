@@ -11,24 +11,25 @@ class Nodes {
   nodes = []; // Node
   nodePaths = {}; // nodePaths[ <path> ] = Node
 
-  // neurons_global
+  // neurons global
   neurons = {};
+  histNeurons = {}; // neurons with ring buffer
   neuronsLen = 0; // number of neurons so far
 
   // keep track of all the node variables added tot he node so far
   nodeVariables = [];
+  nodeHistVariables = [];
   
   activationIter = 0; // To keep track of the ring buffer for the activation history
 
   /**
     Create Nodes
     @param {Network} network - Reference to the network this Tract belongs to
-    @param {number} [historyLength=1] - You need to keep track of the node activation history to do things like axon delay and STDP.
    */
-  constructor(network, historyLength=1) {
+  constructor(network) {
     this.network = network;
 
-    this.historyLength = historyLength; 
+    this.historyLength = network.paradigm.historyLength; 
   }
 
   get dict(){
@@ -37,6 +38,7 @@ class Nodes {
       neurons: this.neurons,
       neuronsLen: this.neuronsLen,
       nodeVariables: this.nodeVariables,
+      nodeHistVariables: this.nodeHistVariables,
       activationIter: this.activationIter
     }
     for(let i = 0; i < this.nodes.length; i++){
@@ -182,6 +184,30 @@ class Nodes {
     // set the start neuron
     node.startNeuronIndex = startNeuron;
     node.endNeuronIndex = this.neuronsLen;
+
+    // add histVaribles if applicable
+    for(let i = 0; i < paradigm.nodeVariables.length; i++){
+      const nodeVar = paradigm.nodeVariables[i];
+
+      // check if included in nodeHistVariables
+      if(!paradigm.nodeHistVariables.includes(nodeVar.name)){ continue; }
+
+      let found = false;
+      for(let j = 0; j < this.nodeHistVariables.length; j++){
+        const nodeVar2 = this.nodeHistVariables[j];
+
+        if(nodeVar.name === nodeVar2.name){
+          found = true;
+          // check if there is a conflict
+          nodeVar.checkSimilar(nodeVar2);
+        }
+      }
+      // fill in missing nodeVariables for the neurons so far
+      if(!found){
+        this.nodeHistVariables.push(nodeVar);
+      }
+    }
+
   }
 
   /**
@@ -190,6 +216,7 @@ class Nodes {
     This needs to be called every time the architecture changes.
    */
   initNeurons(){
+    // === generate neurons
     this.neurons = {}; // fresh clean start
     for(let i = 0; i < this.nodeVariables.length; i++){
       const nodeVar = this.nodeVariables[i];
@@ -207,6 +234,41 @@ class Nodes {
       }
       this.neurons[nodeVar.name].fill(nodeVar.defaultValue);
     }
+
+    // == generate histNeurons
+    this.histNeurons = {};
+    const histLen = this.historyLength;
+    for(let i = 0; i < this.nodeHistVariables.length; i++){
+      const nodeVar = this.nodeHistVariables[i];
+      if(nodeVar.type === "int32"){
+        this.histNeurons[nodeVar.name] = [];
+        for(let j = 0; j < histLen; i++){
+          const arr = new Int32Array(this.neuronsLen);
+          arr.fill(nodeVar.defaultValue);
+          this.histNeurons[nodeVar.name].push(arr);
+        }
+      }
+      else if(nodeVar.type === "int8"){
+        this.histNeurons[nodeVar.name] = [];
+        for(let j = 0; j < histLen; i++){
+          const arr = new Int8Array(this.neuronsLen);
+          arr.fill(nodeVar.defaultValue);
+          this.histNeurons[nodeVar.name].push(arr);
+        }
+      }
+      else if(nodeVar.type === "float32"){
+        this.histNeurons[nodeVar.name] = [];
+        for(let j = 0; j < histLen; i++){
+          const arr = new Float32Array(this.neuronsLen);
+          arr.fill(nodeVar.defaultValue);
+          this.histNeurons[nodeVar.name].push(arr);
+        }
+      }
+      else{
+        throw new Error("Unknown nodeVariable type: "+ nodeVar.type);
+      }
+    }
+
   }
 
 }

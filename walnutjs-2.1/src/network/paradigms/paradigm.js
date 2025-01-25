@@ -59,7 +59,8 @@ class Paradigm {
                    new NodeVariable("act")
                   ];
 
-  nodeHistVariables = ["act"]; // history, length of history is defined in the Network
+  historyLength = 1; // how long the history ring buffer should be
+  nodeHistVariables = ["act"]; // ring buffer with previous values
 
   tractVariables = ["weight"];
 

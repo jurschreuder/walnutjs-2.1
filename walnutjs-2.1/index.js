@@ -7,6 +7,7 @@ import { Tract } from "./src/network/tracts/tract.js";
 
 import { BasicActivate } from "./src/network/paradigms/examples/basicActivate.js";
 import { Izhi9param } from "./src/network/paradigms/izhikevich/izhik9parm.js";
+import { Izhi9paramDelay } from "./src/network/paradigms/izhikevich/izhik9parmDelay.js";
 
 export {
   Network,
@@ -17,4 +18,5 @@ export {
 
   BasicActivate,
   Izhi9param,
+  Izhi9paramDelay,
 }
