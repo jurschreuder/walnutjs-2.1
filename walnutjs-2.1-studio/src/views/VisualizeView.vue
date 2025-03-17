@@ -12,7 +12,7 @@
       </div>
       <div class="col-12" v-for="nodeVar in r.nodeVars">
         <h5>{{nodeVar}}</h5>
-        <SpikePlot :node="r.node" :nodeVar="nodeVar"></SpikePlot>
+        <SpikePlot :node="r.node" :nodeVarName="nodeVar"></SpikePlot>
       </div>
       <hr>
     </div>

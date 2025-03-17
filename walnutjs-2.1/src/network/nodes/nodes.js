@@ -62,6 +62,19 @@ class Nodes {
   }
 
   /**
+    Get node variable by name
+    @param {string} name - Name of the node variable
+    @return {NodeVariable} NodeVariable or false when not found
+   */
+  getNodeVarByName(name){
+    for(let i = 0; i < this.nodeVariables.length; i++){
+      const nv = this.nodeVariables[i];
+      if(nv.name === name) { return nv; }
+    }
+    return false;
+  }
+
+  /**
    Get a node using the node's path
    @param {string} path - Node path
    @return {Node}

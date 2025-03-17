@@ -55,6 +55,11 @@ class Izhi9paramDelay extends Paradigm {
 
     this.historyLength = 50; // how long the history ring buffer should be
 
+    // overwrite net and act, to give it better default ranges
+//    this.nodeVariables = []
+//    this.nodeVariables.push( new NodeVariable("net", "float32", 0.0, [-1.0, 40.0]) );
+//    this.nodeVariables.push( new NodeVariable("act", "float32", 0.0, [-1.0, 1.0]) );
+
     // init default values to "Regular Spiking (RS)"
     this.nodeVariables.push( new NodeVariable("a", "float32", 0.03, [-0.1, 0.1]) );
     this.nodeVariables.push( new NodeVariable("b", "float32", -2.0, [ -5, 5]) );

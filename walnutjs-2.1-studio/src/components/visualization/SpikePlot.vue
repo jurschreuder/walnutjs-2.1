@@ -32,7 +32,7 @@ const walnut = inject('walnut');
 
 const props = defineProps([
   "node" /* Node */, 
-  "nodeVar" /* string */, 
+  "nodeVarName" /* string */, 
 ]);
 
 const canvas = ref(false);
@@ -76,12 +76,12 @@ onMounted(() => {
 
 const render = (min, max) => {
 
-  const nodeVar = props.nodeVar;
+  const nodeVarName = props.nodeVarName;
   const node = props.node;
-  const rec = walnut.recordings.recs[nodeVar];
+  const rec = walnut.recordings.recs[nodeVarName];
 
   console.log("node:", node);
-  console.log("nodeVar:", nodeVar);
+  console.log("nodeVarName:", nodeVarName);
   console.log("rec:", rec);
 
   if(!rec || rec.length <= 0){
