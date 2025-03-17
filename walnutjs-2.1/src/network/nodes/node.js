@@ -67,6 +67,11 @@ class Node {
       startNeuronIndex: this.startNeuronIndex,
       endNeuronIndex: this.endNeuronIndex
     }
+
+    // add visualisation info
+    if(this.draggable){ 
+      dict.draggable = this.draggable.dict; }
+
     return dict;
   }
   
@@ -133,7 +138,7 @@ class Node {
    @param {string} nodeVariable - For example 'net' or 'act'
    @param {number} index - The local neuron index within this node
   */
-  neuronAtIndex(nodeVariable, index, value){
+  neuronAtIndex(nodeVariable, index){
     return this.network.nodes.neurons[nodeVariable][index + this.startNeuronIndex];
   }
 

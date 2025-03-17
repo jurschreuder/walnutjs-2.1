@@ -29,6 +29,33 @@ class Tracts {
     return this.network.paradigm;
   }
 
+
+
+  get dict(){
+    const dict = {
+      tracts: [],
+    }
+    for(let i = 0; i < this.tracts.length; i++){
+      dict.tracts.push(this.tracts[i].dict); 
+    }
+    return dict;
+  }
+
+  fromDict(dict){
+    for(let i = 0; i < dict.tracts.length; i++){
+      const d = dict.tracts[i];
+      const fromNode = this.network.nodes.getNodeByPath(d.fromNodePath);
+      const toNode = this.network.nodes.getNodeByPath(d.toNodePath);
+      const paradigm = this.network.paradigm; // no support for different paradigm per tract save yet
+      const tract = new Tract(this.network, d.path, fromNode, toNode, paradigm, d.delay);
+      tract.connections = d.connections;
+      tract.arrow.color = d.arrow.color;
+      tract.arrow.width = d.arrow.width;
+      this.addTract(tract, true);
+    }
+    this.generateConnections(true);
+  }
+
   /**
    Get a tract using the tract's path
    @param {string} path - Tract path
@@ -76,8 +103,7 @@ class Tracts {
       if(tract.connections.length === 0){
         throw new Error("Trying to add a tract without any connections");
       }
-      this.generateConnections(true);
-    }
+      this.generateConnections(true); }
   }
 
 
@@ -111,7 +137,7 @@ class Tracts {
 
         // connection vars
         for (const [key, value] of Object.entries(conn)) {
-          if(key !== "from" && key !== "to"){ // always have these
+          if(key !== "from" && key !== "to" && key !== "delay"){ // always have these
             let found = false;
             // paradigm vars
             for(let j = 0; j < this.paradigm.tractVariables.length; j++){
@@ -142,6 +168,7 @@ class Tracts {
     // init arrays
     this.connections["from"] = new Int32Array(this.connectionsLen);
     this.connections["to"] = new Int32Array(this.connectionsLen);
+    this.connections["delay"] = new Int32Array(this.connectionsLen);
 
     // specific to paradigm
     for(let i = 0; i < this.paradigm.tractVariables.length; i++){

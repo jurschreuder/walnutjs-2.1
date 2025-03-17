@@ -8,7 +8,8 @@
 import { provide } from "vue";
 
 let walnut = {
-  network: {},
+  network: false,
+  recordings: {}
 }
 provide("walnut", walnut);
 

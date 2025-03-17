@@ -34,10 +34,16 @@ class Network {
     const dict = {
       walnutJsVersion: 2.1,
       dictVersion: 1.0,
+      name: this.name,
       nodes: this.nodes.dict,
-      //tracts: this.tracts.dict, // TODO
+      tracts: this.tracts.dict,
     }
     return dict;
+  }
+
+  fromDict(dict) {
+    this.nodes.fromDict(dict.nodes);
+    this.tracts.fromDict(dict.tracts);
   }
 
   activate(){
