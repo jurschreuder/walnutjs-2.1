@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject, defineProps, defineExpose } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 
 const walnut = inject('walnut');
 

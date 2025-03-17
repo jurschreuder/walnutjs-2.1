@@ -6,6 +6,11 @@
     </div>
   </div>
   <div class="row">
+    <div class="col-12">
+      <ActGraphs></ActGraphs>
+    </div>
+  </div>
+  <div class="row">
     <div v-for="r in recs">
       <div class="col-12">
         <h3 class="text-primary mx-2">{{r.node.path}}</h3>
@@ -22,7 +27,8 @@
 
 <script setup>
 
-import { ref, inject, onMounted, defineExpose } from 'vue'
+import { ref, inject, onMounted } from 'vue'
+import ActGraphs from "./../components/visualization/ActGraphs.vue";
 import SpikePlot from "./../components/visualization/SpikePlot.vue";
 
 const walnut = inject('walnut');
