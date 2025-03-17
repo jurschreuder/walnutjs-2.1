@@ -61,6 +61,7 @@ class Tract {
       toNodePath: this.toNode.path,
       delay: this.delay,
       connections: this.connections,
+      arrow: { color: this.arrow.color, width: this.arrow.width },
     }
     return dict;
   }

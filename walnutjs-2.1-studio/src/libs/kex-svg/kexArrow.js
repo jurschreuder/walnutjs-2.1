@@ -80,6 +80,8 @@ class KexArrow {
       refY="5"
       markerWidth="6"
       markerHeight="6"
+      fill="`+this.color+`"
+      stroke="`+this.color+`"
       orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" />
     </marker>`

@@ -20,6 +20,7 @@
           <div class="btn btn-primary" @click="save()">save</div>
           <div class="btn btn-primary mx-1" @click="load()">load</div>
           <div class="btn btn-primary mx-1" @click="clear()">clear</div>
+          <div class="btn btn-primary mx-1" @click="refresh()">refresh</div>
         </div>
       </div>
       <hr>
@@ -276,6 +277,8 @@ const addTractForm = () => {
     const inNode = walnut.network.nodes.getNodeByPath(v.fromPath);
     const outNode = walnut.network.nodes.getNodeByPath(v.toPath);
     const tract = new Tract(walnut.network, v.path, inNode, outNode, walnut.network.paradigm, v.delay);
+    console.log("tract color:", v.color);
+    tract.arrow.color = v.color;
     //tract.connectBasicLinear(v.sparcity, -0.5, 0.5);
     tract.connectBasicLinear(v.sparcity, v.minWeight, v.maxWeight);
     walnut.network.tracts.addTract(tract);

@@ -2,7 +2,7 @@
 
 class KexCanvas {
 
-  drawables = [];
+  drawables = new Map(); // key is uuid
 
   parentId = false;
   _resizeObserver = false;
@@ -19,19 +19,41 @@ class KexCanvas {
     if(!drawable.isKexSvgDrawable){
       throw new Error("Drawable has to be a KexSvgDrawable");  
     }
-    this.drawables.push(drawable);
+    this.drawables.set(drawable.uuid, drawable);
   }
 
   removeAllDrawables(){
-    this.drawables = [];
+    this.drawables.clear();
+  }
+
+  getDrawableById(uuid){
+    if(!this.drawables.has(uuid)){ return false; };
+    return this.drawables.get(uuid);
+  }
+
+  hasDrawableWithId(uuid){
+    return this.drawables.has(uuid);
+  }
+
+  get drawableUuids(){
+    return Array.from(this.drawables.keys());
+  }
+
+  removeDrawableById(uuid){
+    if(!this.drawables.has(uuid)){ return false; };
+    const d = this.drawables.get(uuid);
+    d.clear();
+    this.drawables.delete(uuid);
   }
 
   render(){
+    console.log("kexCanvas render", this);
     this.addResizeObserver(); 
     this.calcParentSize();
 
-    for(let i = 0; i < this.drawables.length; i++){
-      this.drawables[i].render(this.width, this.height);
+    for(const d of this.drawables.values()) {
+      console.log("kexCanvas drawing drawable:", d);
+      d.render(this.width, this.height);
     }
   }
 
@@ -46,8 +68,8 @@ class KexCanvas {
   }
 
   clear(){
-    for(let i = 0; i < this.drawables.length; i++){
-      this.drawables[i].clear();
+    for(const d of this.drawables.values()) {
+      d.clear();
     }
   }
 

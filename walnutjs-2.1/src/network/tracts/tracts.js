@@ -49,6 +49,8 @@ class Tracts {
       const paradigm = this.network.paradigm; // no support for different paradigm per tract save yet
       const tract = new Tract(this.network, d.path, fromNode, toNode, paradigm, d.delay);
       tract.connections = d.connections;
+      tract.arrow.color = d.arrow.color;
+      tract.arrow.width = d.arrow.width;
       this.addTract(tract, true);
     }
     this.generateConnections(true);

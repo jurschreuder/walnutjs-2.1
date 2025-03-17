@@ -146,19 +146,29 @@ const render = () => {
 
 const renderArrows = () => {
   const arrows = props.display.tractArrows;
-  //console.log("creating arrows:", arrows);
+
+  console.log("DrawCanvas display:", props.display);
+  console.log("DrawCanvas arrows:", arrows);
+  console.log("DrawCanvas arrows len:", arrows.length);
+
+
   
   for(let i = 0; i < arrows.length; i++){
     const arrow = arrows[i];
+
+    // add any arrows that have no drawable yet
     if(!arrow.drawable){
       const a = new KexArrow(canv.parentId);
-      a.lineWidth = 2.0;
+      a.lineWidth = arrow.width;
+      a.color = arrow.color;
       a.setFromPoint(arrow.fromDraggable.center.x, arrow.fromDraggable.center.y);
       a.setToPoint(arrow.toDraggable.center.x, arrow.toDraggable.center.y);
       //a.arrowRef = arrow;
       arrow.drawable = a;
-      canv.addDrawable(a);
+      //canv.addDrawable(a);
+      //console.log("DrawCanvas added drawable:", a);
     }else{
+      // update the locations of arrows that have a drawable
       const a = arrow.drawable;
       let x1 = arrow.fromDraggable.center.x;
       let y1 = arrow.fromDraggable.center.y;
@@ -195,6 +205,26 @@ const renderArrows = () => {
       //console.log(Date.now(), x1,y1,x2,y2)
       a.setFromPoint(x1,y1);
       a.setToPoint(x2,y2);
+      console.log("DrawCanvas updated drawable:", a);
+    }
+  }
+  
+  // sync drawables with KexCanvas
+  const uuids = [];
+  for(let i = 0; i < arrows.length; i++){
+    const d = arrows[i].drawable;
+    uuids.push(d.uuid);
+
+    // add if not there yet
+    if(!canv.hasDrawableWithId(d.uuid)){
+      canv.addDrawable(d);
+    }
+  }
+
+  // remove any uuids that are not arrows anymore
+  for(const uuid of canv.drawables.keys()){
+    if(!uuids.includes(uuid)){
+      canv.removeDrawableById(uuid);
     }
   }
 
