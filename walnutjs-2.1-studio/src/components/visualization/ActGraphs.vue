@@ -4,13 +4,14 @@
 
 <h2 class="text-muted">Average spikes count</h2>
 
-<div class="btn" @click="downloadGraphSpikesPng(4)">Download .png</div>
-<hr />
+<div class="text-end">
+  <div class="btn btn-primary btn-sm mb-2" @click="downloadGraphSpikesPng(4)">Download .png</div>
+</div>
 
 <div
   id="graphs-axis-y"
+  :style="{height: lineHeight+'px'}"
   style="
-    height: 40px;
     width: 65px;
     position: absolute;
     margin-top: 40px;
@@ -27,7 +28,7 @@
       position: relative;
       margin-left: 80px;
     "
-    :style="{ height: totalGraphsN * 40 + 'px' }"
+    :style="{ height: totalGraphsN * lineHeight + 'px' }"
   >
     <span
       class="no-save"
@@ -41,14 +42,14 @@
         pointer-events: none;
       "
       :style="{
-        height: totalGraphsN * 40 + 'px',
+        height: totalGraphsN * lineHeight + 'px',
         left: sliderBarPerc,
       }"
     ></span>
     <div
       id="spikes-graphs"
       style="width: 100%; pointer-events: none"
-      :style="{ height: totalGraphsN * 40 + 'px' }"
+      :style="{ height: totalGraphsN * lineHeight + 'px' }"
     ></div>
   </div>
 
@@ -106,6 +107,11 @@ import { GraphAxisY } from "./../../libs/kex-graph/axisY.js";
 
 const walnut = inject('walnut');
 
+const props = defineProps([
+  "nodeVarName" /* string */, 
+]);
+
+const lineHeight = ref(100);
 const slider = ref(false);
 const totalGraphsN = ref(3);
 const sliderBarPerc = ref("0%");
@@ -128,7 +134,6 @@ const sliderMouseMove = (evt) => {
 onMounted(() => {
   console.log("ActGraphs walnut:", walnut);  
 
-
   {
     let axis = new GraphAxis("axis-x", "graphs-axis-x");
     axis.tics = 20;
@@ -148,10 +153,47 @@ onMounted(() => {
     axisY.render();
   }
 
+  spikesFromRecs();
+
 });
 
-const spikesFromRecs = () => {
+const spikesFromRecs = (scaleY) => {
+  if(!walnut.network || !walnut.network.nodes){ return; }
+  scaleY = scaleY || 1.0;
 
+  const nodes = walnut.network.nodes.nodes;
+  totalGraphsN.value = nodes.length;
+
+  const nodeVarName = props.nodeVarName;
+  const rec = walnut.recordings.recs[nodeVarName];
+
+  for(let i = 0; i < nodes.length; i++){
+    const node = nodes[i];
+      
+    const yStart = node.startNeuronIndex;
+    const size = node.flatSize;
+    const data = [];
+    for(let x = 1; x < rec.length; x++){
+      let av = 0.0;
+      for(let y = 0; y < size; y++){
+        // get nodeVar value
+        const v = rec[x][y+yStart];
+        av += v / size;
+      }
+      data.push([x, av]);
+    }
+
+    const spikesLine = new GraphLine("spikes-line-"+i, data, "spikes-graphs");
+    spikesLine.maxX = 1000;
+    spikesLine.maxY = scaleY * totalGraphsN.value;
+    if(i === 0){ // grid
+      spikesLine.grid.ticsX = 10;
+      spikesLine.grid.ticsY = totalGraphsN.value;
+    }
+    spikesLine.yOffset = scaleY*(totalGraphsN.value-(i+1));
+    console.log("spikesLine:", spikesLine);
+    spikesLine.render();
+  }
 }
 
 const render = () => {

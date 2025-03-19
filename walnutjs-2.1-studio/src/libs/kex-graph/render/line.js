@@ -15,7 +15,7 @@ export function renderLine(graphLine, svg, step, mult) {
   let lineLen = 0;
   for (let i = 0; i < graphLine.data.length; i++) {
     let x = graphLine.data[i][0];
-    let y = graphLine.data[i][1];
+    let y = graphLine.data[i][1] + graphLine.yOffset;
 
     if (graphLine.maxGapX > 0 && x - graphLine._lastX > graphLine.maxGapX) {
       if (lineLen > 1) {

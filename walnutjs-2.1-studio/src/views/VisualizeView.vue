@@ -6,8 +6,8 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-12">
-      <ActGraphs></ActGraphs>
+    <div class="col-12" v-for="nodeVar in nodeVars">
+      <ActGraphs :nodeVarName="nodeVar"></ActGraphs>
     </div>
   </div>
   <div class="row">
@@ -34,6 +34,7 @@ import SpikePlot from "./../components/visualization/SpikePlot.vue";
 const walnut = inject('walnut');
 
 const recs = ref([]);
+const nodeVars = ref(walnut.recordings.nodeVars);
 
 onMounted(() => {
   console.log("visualize walnut:", walnut);
