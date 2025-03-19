@@ -17,7 +17,7 @@
         href="/"
         class="d-flex align-items-center pb-3 mb-3 text-decoration-none border-bottom"
       >
-        <img src="/public/walnut-icon-512.png" class="img-fluid px-4 py-4" />
+        <img src="/walnut-icon-512.png" class="img-fluid px-4 py-4" />
       </a>
       <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">

@@ -71,6 +71,7 @@ class Paradigm {
   constructor(name) {
     this.name = name;
   }
+
 }
 
 export { Paradigm, NodeVariable }
