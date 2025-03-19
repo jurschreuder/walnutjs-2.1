@@ -2,7 +2,6 @@
 
 <div>
 
-<h2 class="text-muted">Average spikes count</h2>
 
 <div class="text-end">
   <div class="btn btn-primary btn-sm mb-2" @click="downloadGraphSpikesPng(4)">Download .png</div>
@@ -14,7 +13,6 @@
   style="
     width: 65px;
     position: absolute;
-    margin-top: 40px;
     overflow: visible;
   "
 ></div>
@@ -72,7 +70,7 @@
     >
     <span
       class="graph-lbl mr-2 no-save"
-      v-for="(rec, index) in recs"
+      v-for="(spikeLine, index) in spikeLines"
       v-bind:key="index"
     >
       <a
@@ -84,12 +82,12 @@
       >
         <span
           class="lbl-color mr-1 no-save"
-          :style="{ background: rec.spikeslLine.lineColor }"
+          :style="{ background: spikeLine.lineColor }"
         ></span>
-        <span class="lbl-lbl no-save">{{ rec.spikesLine.name }}</span>
+        <span class="lbl-lbl no-save">{{ spikeLine.name }}</span>
         <span class="lbl-value no-save">{{
-          rec.spikesLine.slider.y.toFixed(2)
-        }}</span>
+          spikeLine.slider.y.toFixed(2)
+        }}%</span>
       </a>
     </span>
   </div>
@@ -117,7 +115,7 @@ const totalGraphsN = ref(3);
 const sliderBarPerc = ref("0%");
 const sliderBarMs = ref(0);
 
-const recs = ref([]);
+const spikeLines = ref([]);
 
 
 const sliderMouseMove = (evt) => {
@@ -125,8 +123,8 @@ const sliderMouseMove = (evt) => {
   sliderBarPerc.value = x * 100 + "%";
   sliderBarMs.value = x * 1000;
   let ms = x * 1000;
-  for (let i = 0; i < recs.value.length; i++) {
-    //this.recs[i].spikesLine.slideToX(ms);
+  for (let i = 0; i < spikeLines.value.length; i++) {
+    spikeLines.value[i].slideToX(ms);
   }
 }
 
@@ -161,6 +159,8 @@ const spikesFromRecs = (scaleY) => {
   if(!walnut.network || !walnut.network.nodes){ return; }
   scaleY = scaleY || 1.0;
 
+  spikeLines.value = [];
+
   const nodes = walnut.network.nodes.nodes;
   totalGraphsN.value = nodes.length;
 
@@ -183,16 +183,19 @@ const spikesFromRecs = (scaleY) => {
       data.push([x, av]);
     }
 
-    const spikesLine = new GraphLine("spikes-line-"+i, data, "spikes-graphs");
-    spikesLine.maxX = 1000;
-    spikesLine.maxY = scaleY * totalGraphsN.value;
+    const spikeLine = new GraphLine("spikes-line-"+i, data, "spikes-graphs");
+    spikeLine.maxX = 1000;
+    spikeLine.maxY = scaleY * totalGraphsN.value;
+    spikeLine.name = node.name;
     if(i === 0){ // grid
-      spikesLine.grid.ticsX = 10;
-      spikesLine.grid.ticsY = totalGraphsN.value;
+      spikeLine.grid.ticsX = 10;
+      spikeLine.grid.ticsY = totalGraphsN.value;
     }
-    spikesLine.yOffset = scaleY*(totalGraphsN.value-(i+1));
-    console.log("spikesLine:", spikesLine);
-    spikesLine.render();
+    spikeLine.yOffset = scaleY*(totalGraphsN.value-(i+1));
+    console.log("spikeLine:", spikeLine);
+    spikeLine.render();
+
+    spikeLines.value.push(spikeLine);
   }
 }
 
@@ -206,7 +209,37 @@ defineExpose({render});
 
 
 <style scoped>
-
+.bold {
+  font-weight: 900;
+}
+.lbl-color {
+  position: absolute;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border-radius: 0.5em;
+  margin-top: 0.2em;
+  margin-left: 0.2em;
+}
+.lbl-lbl {
+  display: inline-block;
+  margin-left: 1.6em;
+  margin-right: 0.8em;
+}
+.lbl-value {
+  display: inline-block;
+  margin-right: 0em;
+  width: 3em;
+}
+.graph-lbl {
+  display: inline-block;
+  border: rgba(0, 0, 0, 0.2);
+  border-style: solid;
+  border-width: thin;
+  border-radius: 0.4em;
+  margin-bottom: 0.2em;
+  margin-right: 0.2em;
+}
 </style>
 
 
