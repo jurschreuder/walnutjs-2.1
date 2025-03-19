@@ -28,6 +28,7 @@
 <script setup>
 import { ref, onMounted, inject } from 'vue'
 
+
 const walnut = inject('walnut');
 
 const props = defineProps([
@@ -82,6 +83,7 @@ const render = (min, max) => {
 
   console.log("node:", node);
   console.log("nodeVarName:", nodeVarName);
+
   console.log("rec:", rec);
 
   if(!rec || rec.length <= 0){

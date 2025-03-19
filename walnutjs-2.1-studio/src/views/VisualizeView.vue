@@ -29,6 +29,7 @@
 
 import { ref, inject, onMounted } from 'vue'
 import ActGraphs from "./../components/visualization/ActGraphs.vue";
+
 import SpikePlot from "./../components/visualization/SpikePlot.vue";
 
 const walnut = inject('walnut');
