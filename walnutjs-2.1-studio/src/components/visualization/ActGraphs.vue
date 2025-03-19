@@ -186,7 +186,7 @@ const spikesFromRecs = (scaleY) => {
     const spikeLine = new GraphLine("spikes-line-"+i, data, "spikes-graphs");
     spikeLine.maxX = 1000;
     spikeLine.maxY = scaleY * totalGraphsN.value;
-    spikeLine.name = node.name;
+    spikeLine.name = node.path;
     if(i === 0){ // grid
       spikeLine.grid.ticsX = 10;
       spikeLine.grid.ticsY = totalGraphsN.value;
@@ -218,7 +218,7 @@ defineExpose({render});
   width: 1em;
   height: 1em;
   border-radius: 0.5em;
-  margin-top: 0.2em;
+  margin-top: 0.3em;
   margin-left: 0.2em;
 }
 .lbl-lbl {
@@ -228,7 +228,7 @@ defineExpose({render});
 }
 .lbl-value {
   display: inline-block;
-  margin-right: 0em;
+  margin-right: 0.2em;
   width: 3em;
 }
 .graph-lbl {
@@ -239,6 +239,7 @@ defineExpose({render});
   border-radius: 0.4em;
   margin-bottom: 0.2em;
   margin-right: 0.2em;
+  padding-bottom: 0.03em;
 }
 </style>
 

@@ -5,7 +5,7 @@
       <h1>Visualize</h1>
     </div>
   </div>
-  <div class="row">
+  <div class="row mb-4">
     <div class="col-12" v-for="nodeVar in nodeVars">
       <ActGraphs :nodeVarName="nodeVar"></ActGraphs>
     </div>
