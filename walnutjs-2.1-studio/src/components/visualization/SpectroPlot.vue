@@ -1,12 +1,19 @@
 <template>
 
 <div>
-
+  <span class="text-muted" style="width:6em; display=inline-block;">
+    {{ curFreq.toFixed(1) }}Hz
+  </span>
+  <span class="text-muted" style="width:6em; display=inline-block;">
+    {{ curMs.toFixed(1) }}ms
+  </span>
+  <br>
   <canvas 
     ref="canvas" 
     style="width:500px;height:200px;"
     :width="canvWidth" 
     :height="canvHeight" 
+    @mousemove="hoverSpectro($event)"
     class="act-canvas">
   </canvas>
 
@@ -31,21 +38,14 @@ let ctx = false;
 const canvWidth = ref(500);
 const canvHeight = ref(50);
 
-const conf = ref({
-  min: -1,
-  max: 1,
-});
+let spectro = [];
+const curFreq = ref(0.0);
+const curMs = ref(0.0);
 
-const mouseDown = (evt) => {
-  // todo
-  //    evt.offsetX,
-  //    evt.offsetY,
-  //    evt.clientX - bounds.left,
-  //    evt.clientY - bounds.top
-}
-
-const mouseMove = (evt) => {
-  // todo
+const hoverSpectro = (evt) => {
+  // 0 to 100 hz, element is 200px high
+  curFreq.value = 100 - evt.offsetY / 2;
+  curMs.value = evt.offsetX * 2;
 }
 
 onMounted(() => {
@@ -111,7 +111,7 @@ const render = (min, max) => {
   const maxFreq = 50;
   const amps = new Array(maxFreq);
 
-  const spectro = [];
+  spectro = [];
 
   for(let i = 0; i < rec.length - windowSize; i++){
     
