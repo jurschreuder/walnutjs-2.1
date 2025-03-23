@@ -17,6 +17,8 @@
       </div>
       <div class="col-12" v-for="nodeVar in r.nodeVars">
         <h5>{{nodeVar}}</h5>
+        <SpectroPlot :node="r.node" :nodeVarName="nodeVar"></SpectroPlot>
+        <br>
         <SpikePlot :node="r.node" :nodeVarName="nodeVar"></SpikePlot>
       </div>
       <hr>
@@ -30,6 +32,7 @@
 import { ref, inject, onMounted } from 'vue'
 import ActGraphs from "./../components/visualization/ActGraphs.vue";
 import SpikePlot from "./../components/visualization/SpikePlot.vue";
+import SpectroPlot from "./../components/visualization/SpectroPlot.vue";
 
 const walnut = inject('walnut');
 

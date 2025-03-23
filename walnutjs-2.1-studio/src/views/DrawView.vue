@@ -367,7 +367,8 @@ const activate = async (itersN, visualizeEveryN, isRecording) => {
       //walnut.network.nodes.clearAct();
 
       // add some test activation
-      if(iter > 100 && iter < 200){
+      //if(iter > 100 && iter < 200){
+      if(true){
         for(let i = iter%4; i < 100; i+=4){
           //walnut.network.nodes.nodes[0].setNeuronAtIndex("act", i, 1.0);
           walnut.network.nodes.nodes[0].setNeuronAtIndex("net", i, 40.0);

@@ -2,21 +2,9 @@
 
 <div>
 
-  <div class="row">
-    <div class="col-4">
-      <div class="input-group mb-3">
-        <span class="input-group-text">min</span>
-        <input type="number" class="form-control" v-model="conf.min">
-        <span class="input-group-text">max</span>
-        <input type="number" class="form-control" v-model="conf.max">
-        <button class="btn btn-outline-secondary" type="button" @click="render()">render</button>
-      </div>
-    </div>
-  </div>
-
   <canvas 
     ref="canvas" 
-    style="width:1000px; height:100px;"
+    style="width:500px;height:200px;"
     :width="canvWidth" 
     :height="canvHeight" 
     class="act-canvas">
@@ -27,7 +15,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject } from 'vue'
+import { ref, onMounted, inject } from 'vue';
+import FFT from "fft.js";
 
 const walnut = inject('walnut');
 
@@ -39,8 +28,8 @@ const props = defineProps([
 const canvas = ref(false);
 let ctx = false;
 
-const canvWidth = ref(1000);
-const canvHeight = ref(100);
+const canvWidth = ref(500);
+const canvHeight = ref(50);
 
 const conf = ref({
   min: -1,
@@ -66,10 +55,10 @@ onMounted(() => {
   console.log("ctx",ctx);
 
   // calc color
-  ctx.fillStyle = "rgb(100 100 100)";
+  //ctx.fillStyle = "rgb(100 100 100)";
 
   // draw on canvas
-  ctx.fillRect(0, 0, 100, 100);
+  //ctx.fillRect(0, 0, 100, 100);
 
   render();
 
@@ -94,36 +83,66 @@ const render = (min, max) => {
   //canvHeight.value = node.flatSize.toFixed(0);
   console.log("canvW", canvWidth.value, "canvH", canvHeight.value);
 
-  min = min || conf.value.min;
-  max = max || conf.value.max;
-  console.log("conf.min", conf.value.min, "rendering", min, max);
-  const scalePos = 255 / max;
-  const scaleNeg = 255 / min;
+  const avgs = [];
 
-  //console.log("dr", dr);
   const yStart = node.startNeuronIndex;
-  for(let x = 0; x < rec.length; x++){
-    for(let y = 0; y < node.flatSize; y++){
+  const ySize = node.flatSize;
+  for(let x = 1; x < rec.length; x++){ // first one is NaN somehow
+    let av = 0.0;
+    for(let y = 0; y < ySize; y++){
 
       // get nodeVar value
       const v = rec[x][y+yStart];
-      
-      // clip between 0 and 255
-      //const r = '100';//Math.max(min, Math.min(v*scaleNeg, 255)).toFixed(0); // neg (red)
-      const g = Math.max(min, Math.min(v*scalePos, 255)).toFixed(0); // pos (green)
-
-      // calc color
-      ctx.fillStyle = "rgb("+g+" "+g+" "+g+")";
-
-      // draw on canvas
-      ctx.fillRect(
-        x,
-        y,
-        x+1,
-        y+1,
-      );
+      av += v / ySize;
     }
+    avgs.push(av);
   }
+  console.log("avgs:", avgs);
+
+  // create spectro
+  const sampleRate = 1000;
+  const windowSize = 512;
+
+  const f = new FFT(windowSize);
+  const input = new Array(windowSize);
+  input.fill(0);
+  const out = f.createComplexArray();
+
+  const maxFreq = 50;
+  const amps = new Array(maxFreq);
+
+  const spectro = [];
+
+  for(let i = 0; i < rec.length - windowSize; i++){
+    
+    for(let j = 0; j < windowSize; j++){
+      input[j] = avgs[i+j];
+    }
+    
+    f.realTransform(out, input);
+    // calculate the frequency amplitudes of first 100
+    for (let j = 0; j < maxFreq * 2; j += 2) {
+      let k = j / 2;
+      let re = out[j];
+      let im = out[j + 1];
+      let v = Math.sqrt(re * re + im * im);
+      amps[k] = v;
+
+      // draw
+      v *= 10;
+      if (v > 255) {
+        v = 255;
+      }
+      ctx.fillStyle = "rgb(" + v + "," + v + "," + v + ")";
+      ctx.fillRect(i, maxFreq - k, 1, 1);
+    }
+    if (i == 0) {
+      console.log("fourier output:", out);
+      console.log("frequency magnitudes", amps);
+    }
+    spectro[i] = amps;
+  }
+
 }
 
 defineExpose({render});
@@ -139,6 +158,7 @@ defineExpose({render});
 }
 
 </style>
+
 
 
 
